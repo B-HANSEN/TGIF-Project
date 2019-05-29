@@ -6,7 +6,7 @@
 </head>
 
 <body>
-
+    <table ID="senate-data"> </table>
     <nav>
         <div>
             <div>
@@ -30,7 +30,7 @@
         <div>
         </div>
     </header>
-    <pre ID="senate-data">
+
     <!--Table container-->
     <div>
         <h2>Senators</h2>
@@ -113,13 +113,11 @@
         </table>
     </div>
 
-    <script>
-        src = "pro-Congress-113-senate.js"
-    </script>
+    <script src="../TGIF-Project/pro-Congress-113-senate.js"> </script>
     <script> var pre = document.getElementById("senate-data");
         pre.innerHTML = JSON.stringify(data, null, 2);
     </script>
-    </pre>
+
 </body>
 
 </html>
