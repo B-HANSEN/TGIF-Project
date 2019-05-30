@@ -1,5 +1,5 @@
 var members = data.results[0].members; /// declare variable and access in js.file
-var tbody = document.getElementById("senate-data"); ///
+var tbody = document.getElementById("house-data"); ///
 
 function createTable(arrayMembers) {
     for (var i = 0; i < arrayMembers.length; i++) {
