@@ -18,12 +18,14 @@
 
 <body>
     <header>
-        <div>
-            <img src="/images/tgif#5.jpeg" class="img-fluid" alt="Responsive image">
+
+        <div class="media">
+            <img src="../TGIF-Project/images/tgif.jpeg" class="mr-3" alt="newLogo">
         </div>
+
     </header>
 
-    <nav class="navbar navbar-expand-lg navbar- bg-secondary" style="background-color: #eee;">
+    <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="nav nav-tabs bg-light">
                 <li class="nav-item">
@@ -47,7 +49,7 @@
 
     <!-- Table container -->
     <div>
-        <h2 class="ml-3 mt-5">Congressman</h2>
+        <h1 class="ml-3 mt-5">Congressmen</h1>
         <p class="mx-5 mb-5">The major power of the House is to pass federal legislation that affects the entire
             country,
             although its bills must also be passed by the Senate and further agreed to by the U.S. President before
@@ -63,9 +65,30 @@
 
     </div>
 
+
+    <!-- RADIO BUTTONS -->
+    <!-- why does vertical alignment not work? because of inline-flex, but inline dow not work-->
+    <div class="d-inline-flex p-2 bd-highlight align-middle">
+
+        <h2 class="mx-3">Filter by party</h2>
+        <label class="mx-2">
+            <input type="radio" name=party value="Republican">
+            Republican
+        </label>
+        <label class="mx-2">
+            <input type="radio" name=party value="Democrat">
+            Democrat
+        </label>
+        <label class="mx-2">
+            <input type="radio" name=party value="Independent">
+            Independent
+        </label>
+
+    </div>
+
     <div>
-        <thead>
-            <table class="table-striped table-bordered table-condensed table-hover mx-auto" style="width:1200px">
+        <table class="table-striped table-bordered table-condensed table-hover mx-auto" style="width:1000px">
+            <thead>
 
                 <tr>
                     <th>Full Name</th>
@@ -75,11 +98,11 @@
                     <th>Votes with party</th>
 
                 </tr>
-        </thead>
+            </thead>
 
 
-        <tbody id="house-data">
-        </tbody>
+            <tbody id="house-data">
+            </tbody>
 
         </table>
 

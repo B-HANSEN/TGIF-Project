@@ -18,17 +18,16 @@
 
 <header>
     <div>
-        <img class="logo" src="/images/tgif#1.png" alt="logo">
+        <img class="logo" src="./images/tgif.jpeg" alt="logo">
     </div>
 </header>
 
-
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
-
+        <!-- active selection and non-selection do not make the links blue or black -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="nav nav-tabs bg-light">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item dropdown">
@@ -46,27 +45,50 @@
         </div>
     </nav>
 
+    <div class="container">
+        <h1 class="mt-5">About US</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, ex id facilisis egestas, mauris felis
+            posuere odio, ut rutrum nisl lorem vel tellus. Nulla vehicula nibh non quam tincidunt dapibus. Morbi porta
+            nisl
+            quis porttitor hendrerit. Donec eget porttitor sem. Aliquam non lobortis nisi. Sed eleifend metus at
+            condimentum
+            congue. Proin elementum fringilla neque. Ut accumsan in libero vel sollicitudin. Suspendisse potenti. Nunc
+            dapibus sapien felis, ut laoreet tortor tincidunt at. Phasellus ut neque feugiat, placerat nunc eget, semper
+            erat. Vestibulum suscipit leo massa, a dignissim est ullamcorper iaculis. Curabitur accumsan sit amet risus
+            sed
+            imperdiet. Nunc eu lorem rhoncus, interdum massa a, venenatis mauris. Sed fringilla eleifend iaculis. Fusce
+            gravida gravida ante at tincidunt..</p>
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">Read
+            More</button>
+        <div id="demo" class="collapse">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, ex id facilisis egestas, mauris felis
+            posuere odio, ut rutrum nisl lorem vel tellus. Nulla vehicula nibh non quam tincidunt dapibus. Morbi porta
+            nisl
+            quis porttitor hendrerit. Donec eget porttitor sem. Aliquam non lobortis nisi. Sed eleifend metus at
+            condimentum
+            congue. Proin elementum fringilla neque. Ut accumsan in libero vel sollicitudin. Suspendisse potenti. Nunc
+            dapibus sapien felis, ut laoreet tortor tincidunt at. Phasellus ut neque feugiat, placerat nunc eget, semper
+            erat. Vestibulum suscipit leo massa, a dignissim est ullamcorper iaculis. Curabitur accumsan sit amet risus
+            sed
+            imperdiet. Nunc eu lorem rhoncus, interdum massa a, venenatis mauris. Sed fringilla eleifend iaculis. Fusce
+            gravida gravida ante at tincidunt.
+        </div>
+    </div>
 
-    <h1>About US</h1>
-    <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, ex id facilisis egestas, mauris felis
-        posuere odio, ut rutrum nisl lorem vel tellus. Nulla vehicula nibh non quam tincidunt dapibus. Morbi porta nisl
-        quis porttitor hendrerit. Donec eget porttitor sem. Aliquam non lobortis nisi. Sed eleifend metus at condimentum
-        congue. Proin elementum fringilla neque. Ut accumsan in libero vel sollicitudin. Suspendisse potenti. Nunc
-        dapibus sapien felis, ut laoreet tortor tincidunt at. Phasellus ut neque feugiat, placerat nunc eget, semper
-        erat. Vestibulum suscipit leo massa, a dignissim est ullamcorper iaculis. Curabitur accumsan sit amet risus sed
-        imperdiet. Nunc eu lorem rhoncus, interdum massa a, venenatis mauris. Sed fringilla eleifend iaculis. Fusce
-        gravida gravida ante at tincidunt.
-    </p>
+
+
+
 
 
     <!-- add read more option... -->
 
-    <footer>
-            <div class="navbar navbar-expand-sm bg-light justify-content-center">
-                <p>© 2016 TGIF | All Rights Reserved</p>
+    <footer class="fixed-bottom">
+        <div class="navbar navbar-expand-sm bg-light justify-content-center">
+            <!-- vertical alignment does not work -->
+            <p class="align-bottom">© 2016 TGIF | All Rights Reserved</p>
         </div>
-</footer>
+    </footer>
 
 </body>
+
 </html>

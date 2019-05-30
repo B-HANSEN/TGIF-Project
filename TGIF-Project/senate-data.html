@@ -16,46 +16,40 @@
 </head>
 
 <body>
-    <header>
+    <header class="fixed-top z-index:10 bg-white">
         <div>
-            <img class="logo" src="/images/tgif#1.png" alt="logo">
+            <img class="logo" src="./images/tgif.jpeg" alt="logo">
+            <!-- <img class="logo" src="./images/facebooklogo.jpg" alt="logo"> -->
         </div>
+
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="nav nav-tabs bg-light">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Congress 113
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Senate</a>
+                            <a class="dropdown-item" href="house-data.html">House</a>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
     </header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="nav nav-tabs bg-light">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Congress 113
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Senate</a>
-                        <a class="dropdown-item" href="house-data.html">House</a>
-                    </div>
-                </li>
-            </ul>
-
-        </div>
-    </nav>
-
-
-    </select>
-    </button>
-    </div>
-    </div>
-    </nav>
-
-
 
     <!-- Table container -->
-    <div>
-        <h2>Senators</h2>
-        <p>First convened in 1789, the composition and powers of the Senate are established in Article
+    <div class="position-absolute" style="top:200px">
+        <h1 class="ml-3 mt-5">Senators</h1>
+        <p class="mx-5 mb-5">First convened in 1789, the composition and powers of the Senate are established in Article
             One of
             the
             U.S.
@@ -78,29 +72,50 @@
 
     </div>
 
-    <table class="table-striped table-bordered table-condensed table-hover">
-        <thead>
-            <tr>
-                <th>Full Name</th>
-                <th>Party</th>
-                <th>State</th>
-                <th>Seniority</th>
-                <th>Votes with party</th>
-
-            </tr>
-        </thead>
+    <!-- RADIO BUTTONS -->
+    <div class="d-inline-flex p-2 bd-highlight" style="top:400px">
 
 
-        <tbody id="senate-data">
-        </tbody>
+        <h2 class="mx-3">Filter by party</h2>
+        <label class="mx-2">
+            <input type="radio" name=party value="Republican">
+            Republican
+        </label>
+        <label class="mx-2">
+            <input type="radio" name=party value="Democrat">
+            Democrat
+        </label>
+        <label class="mx-2">
+            <input type="radio" name=party value="Independent">
+            Independent
+        </label>
 
+    </div>
+    <div style="top:1000">
+        <table class="table-striped table-bordered table-condensed table-hover mx-auto" style="width:1000px">
+
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Party</th>
+                    <th>State</th>
+                    <th>Seniority</th>
+                    <th>Votes with party</th>
+
+                </tr>
+            </thead>
+
+
+            <tbody id="senate-data">
+            </tbody>
+    </div>
     </table>
 
     <footer>
-            <div class="navbar navbar-expand-sm bg-light justify-content-center">
-                <p>© 2016 TGIF | All Rights Reserved</p>
+        <div class="navbar navbar-expand-sm bg-light justify-content-center">
+            <p>© 2016 TGIF | All Rights Reserved</p>
         </div>
-</footer>
+    </footer>
 
 
     <script src="pro-Congress-113-senate.js"></script>
