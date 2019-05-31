@@ -16,16 +16,25 @@
 
 </head>
 
-<body>
-    <header>
 
-        <div class="media">
-            <img src="../TGIF-Project/images/tgif.jpeg" class="mr-3" alt="newLogo">
+<header class="fixed-top bg-white" style="font-family: 'Comic Sans MS'">
+
+    <div class="" style="display: flex; justify-content:space-between">
+        <div>
+            <img class="logo mt-1 mb-1 ml-1" src="./images/screenshot.png" alt="logo" style="height:150px">
         </div>
 
-    </header>
+        <div class="mr-5" style="display: flex; align-items:center">
+            <img src="./images/mail.png" alt="logo" style="height:40px">
+            <a href="mailto:info@tgif.net" class="ml-2" style="font-size:30px">info@tgif.net</a>
+        </div>
+
+    </div>
+
+
 
     <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
+
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="nav nav-tabs bg-light">
                 <li class="nav-item">
@@ -45,10 +54,12 @@
 
         </div>
     </nav>
+</header>
 
+<body>
 
     <!-- Table container -->
-    <div>
+    <div style=margin-top:250px>
         <h1 class="ml-3 mt-5">Congressmen</h1>
         <p class="mx-5 mb-5">The major power of the House is to pass federal legislation that affects the entire
             country,
@@ -66,28 +77,29 @@
     </div>
 
 
-    <!-- RADIO BUTTONS -->
+    <!-- CHECKBOXES -->
     <!-- why does vertical alignment not work? because of inline-flex, but inline dow not work-->
-    <div class="d-inline-flex p-2 bd-highlight align-middle">
+    <div class="d-inline-flex p-2 bd-highlight">
 
         <h2 class="mx-3">Filter by party</h2>
         <label class="mx-2">
-            <input type="radio" name=party value="Republican">
+            <input type="checkbox" name=party value="Republican">
             Republican
         </label>
         <label class="mx-2">
-            <input type="radio" name=party value="Democrat">
+            <input type="checkbox" name=party value="Democrat">
             Democrat
         </label>
         <label class="mx-2">
-            <input type="radio" name=party value="Independent">
+            <input type="checkbox" name=party value="Independent">
             Independent
         </label>
 
     </div>
 
     <div>
-        <table class="table-striped table-bordered table-condensed table-hover mx-auto" style="width:1000px">
+        <table class="table-striped table-bordered table-condensed table-hover mx-auto"
+            style="margin-top:15px; width:1000px">
             <thead>
 
                 <tr>
@@ -109,7 +121,7 @@
 
 
         <footer>
-            <div class="navbar navbar-expand-sm bg-light justify-content-center">
+            <div class="navbar navbar-expand-sm bg-light" style="margin-top: 10px; justify-content: center">
                 <p>© 2016 TGIF | All Rights Reserved</p>
             </div>
         </footer>
@@ -118,9 +130,6 @@
 
     <script src="pro-Congress-113-house.js"></script>
     <script src="main_house.js"></script>
-
-
-
 
 </body>
 
