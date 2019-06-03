@@ -1,17 +1,17 @@
-var members = data.results[0].members; /// declare variable and access in js.file
-var tbody = document.getElementById("senate-data"); ///
+var members = data.results[0].members;
+var tbody = document.getElementById("house-data");
 
 function createTable(arrayMembers) {
     for (var i = 0; i < arrayMembers.length; i++) {
         var tr = document.createElement("tr");
 
-        var lastName = arrayMembers[i].last_name; /// into members, select name IDs
+        var lastName = arrayMembers[i].last_name;
         var firstName = arrayMembers[i].first_name;
         var middleName = arrayMembers[i].middle_name;
         var party = arrayMembers[i].party;
         var state = arrayMembers[i].state;
         var seniority = arrayMembers[i].seniority;
-        var statePercentages = arrayMembers[i].votes_with_party_pct;
+        var votes = arrayMembers[i].votes_with_party_pct;
         var fullName;
 
         if (middleName == null) {
@@ -19,11 +19,12 @@ function createTable(arrayMembers) {
         } else {
             fullName = `${lastName} ${firstName} ${middleName}`;
         }
-        var td_fullName = document.createElement("td"); /// create data cell    
+
+        var td_fullName = document.createElement("td");
         var td_party = document.createElement("td");
         var td_state = document.createElement("td");
         var td_seniority = document.createElement("td");
-        var td_statePercentages = document.createElement("td");
+        var td_votes = document.createElement("td");
 
         if (members[i].url != "") {
             var membersURL = document.createElement("a");
@@ -35,14 +36,13 @@ function createTable(arrayMembers) {
             td_fullName.innerHTML = fullName
         }
 
-        /// access array and define table cells
         td_party.innerHTML = party;
         td_state.innerHTML = state;
         td_seniority.innerHTML = seniority;
-        td_statePercentages.innerHTML = statePercentages + " %";
+        td_votes.innerHTML = votes + " %";
 
-        tr.append(td_fullName, td_party, td_state, td_seniority, td_statePercentages); /// append cells to rows
-        tbody.append(tr); /// append rows to body
+        tr.append(td_fullName, td_party, td_state, td_seniority, td_votes);
+        tbody.append(tr);
     }
 }
 createTable(members);
