@@ -1,6 +1,3 @@
-// In that object, include fields for all statistics the client requested; initialize each value to zero.
-
-// Create a new JS file that contains all statistic functionalities and instantiate an object named statistics. 
 // object for AT A GLANCE table
 let statistics = {
     "Total": {
@@ -46,9 +43,15 @@ function numberOfMembers(members, letter) { // add letter code to avoid writing 
 // avg % voted with party
 statistics.Democrats.votedWithParty = (sumVotes(arrayOfMembers, "D") / statistics.Democrats.NoOfReps).toFixed(2);
 statistics.Republicans.votedWithParty = (sumVotes(arrayOfMembers, "R") / statistics.Republicans.NoOfReps).toFixed(2);
-statistics.Independents.votedWithParty = (sumVotes(arrayOfMembers, "I") / statistics.Independents.NoOfReps).toFixed(2);
+if (sumVotes(arrayOfMembers, "I") !== 0) {
+    statistics.Independents.votedWithParty = (sumVotes(arrayOfMembers, "I") / statistics.Independents.NoOfReps).toFixed(2)
+} else {
+    statistics.Independents.votedWithParty = 0;
+}
 statistics.Total.votedWithParty = ((Number(statistics.Democrats.votedWithParty) + Number(statistics.Republicans.votedWithParty) + Number(statistics.Independents.votedWithParty)) / 3).toFixed(2);
-console.log(statistics);
+
+// console.log(statistics);
+
 
 function sumVotes(members, letter) {
     var allVotes = 0;
@@ -62,12 +65,13 @@ function sumVotes(members, letter) {
 
 // move values to html table ----------- why does the sequence of the output change in HTML??? 
 function forHtmlTable(object) {
-    var tbody = document.getElementById("senate-stats");
+    var tbody = document.getElementById("stats");
     for (let keys in object) {
         var row = tbody.insertRow(0);
         var cell1 = row.insertCell(0);
         var cell2 = row.insertCell(1);
         var cell3 = row.insertCell(2);
+
         cell1.innerHTML = [keys];
         cell2.innerHTML = object[keys].NoOfReps;
         cell3.innerHTML = object[keys].votedWithParty;
@@ -76,64 +80,74 @@ function forHtmlTable(object) {
 forHtmlTable(statistics);
 
 
-// object for LEAST ARRAY table ************************************
-var missedVotes = {
-    fullName: 0,
-    percentageVotes: 0
-}
+// // object for LEAST ARRAY table ************************************
 
-// concatenate names parameters to fullName
+// create descending array with SORTING PARAMETER (here first: all missed votes)
+var sorter = [];
+
+function mainArray(myArray) {
+    for (var i = 0; i < myArray.length; i++) {
+        sorter.push(myArray[i].missed_votes_pct);
+    }
+    sorter.sort(function (a, b) {
+        return b - a
+    })
+
+    console.log(sorter);
+};
+mainArray(arrayOfMembers);
+
+// TODO: make a function out of it and replace missed_votes; as needed for other parameters later
+arrayOfMembers.sort((a, b) => Number(b.missed_votes_pct) - Number(a.missed_votes_pct));
+
+console.log(arrayOfMembers[0].missed_votes_pct);
+console.log(arrayOfMembers[1].missed_votes_pct);
+console.log(arrayOfMembers[2].missed_votes_pct);
+
+// for sorted array slice out TOP10%
+var slicedArray = arrayOfMembers.slice(0, Math.round((arrayOfMembers.length * 0.1)));
+
+console.log(slicedArray);
+// console.log(slicedArray[0].first_name);
+console.log(typeof (slicedArray[0]));
+
+
+// names parameters concatenation
+var fullName;
 var lastName = data.results[0].members.last_name;
 var firstName = data.results[0].members.first_name;
 var middleName = data.results[0].members.middle_name;
-
 if (middleName == null) {
     fullName = `${lastName} ${firstName}`;
 } else {
     fullName = `${lastName} ${firstName} ${middleName}`;
 }
-console.log(data.results[0].members[0].last_name);
 
-
-missedVotes = fillMissedVotesArray(arrayOfMembers);
-
-function fillMissedVotesArray(abc) {
-    missed_votes = data.results[0].members.missed_votes;;
-    for (var i = 0; i < abc.length; i++) {
-        missedVotes.push(missed_votes[i]);
-        // .sort();
+// show other parameters
+function showOtherParams(object) {
+    for (var i = 0; i < object.length; i++) {
+        console.log(slicedArray[i].fullName); // why not shown in console??
+        console.log(slicedArray[i].missed_votes);
+        console.log(slicedArray[i].missed_votes_pct);
     }
 }
-console.log(fillMissedVotesArray(arrayOfMembers));
+showOtherParams(slicedArray);
 
 
 
-// missedVotes[j] = {
-//     fullName: ["x"],
-//     percentage: ["y"]
-// };
+// move values to html table    
+function forHtmlTable1(object) {
+    var tbody = document.getElementById("top-stats");
+    for (let keys in object) {
+        var row = tbody.insertRow(0);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
 
-
-
-
-// stats1.noMissedVotes = numberOfMissedVotes(arrayOfMembers);
-// stats1.percentageMissed = percOfMissedVotes(arrayOfMembers);
-
-// function numberOfMissedVotes(members) {
-//     var noMissedVotes = 0;
-//     for (var i = 0; i < members.length; i++) {
-//         noMissedVotes += members[i].missed_votes;
-//     }
-//     return noMissedVotes;
-// }
-// console.log(numberOfMissedVotes(arrayOfMembers));
-
-
-// function percOfMissedVotes(members) {
-//     var percMissedVotes = 0;
-//     for (var i = 0; i < members.length; i++) {
-//         percMissedVotes += members[i].missed_votes_pct;
-//     }
-//     return percMissedVotes;
-// }
-// console.log(percOfMissedVotes(arrayOfMembers));
+        cell1.innerHTML = object[keys].fullName;
+        cell2.innerHTML = object[keys].missed_votes;
+        cell3.innerHTML = object[keys].missed_votes_pct;
+    }
+}
+forHtmlTable1(slicedArray);
+// why is the sorting reversed??   ** same as with statistics mapping into table
