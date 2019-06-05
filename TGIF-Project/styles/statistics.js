@@ -1,10 +1,6 @@
 // object for AT A GLANCE table
 let statistics = {
-    "Total": {
-        NoOfReps: data.results[0].num_results,
-        votedWithParty: 0,
-    },
-    "Independents": {
+    "Democrats": {
         NoOfReps: 0,
         votedWithParty: 0,
     },
@@ -12,10 +8,14 @@ let statistics = {
         NoOfReps: 0,
         votedWithParty: 0,
     },
-    "Democrats": {
+    "Independents": {
         NoOfReps: 0,
         votedWithParty: 0,
-    }
+    },
+    "Total": {
+        NoOfReps: data.results[0].num_results,
+        votedWithParty: 0,
+    },
 }
 
 // Write code to create and fill three variables; one for a list of Dem objects etc.
@@ -29,7 +29,7 @@ statistics.Democrats.NoOfReps = numberOfMembers(arrayOfMembers, "D")
 statistics.Republicans.NoOfReps = numberOfMembers(arrayOfMembers, "R")
 statistics.Independents.NoOfReps = numberOfMembers(arrayOfMembers, "I")
 
-function numberOfMembers(members, letter) { // add letter code to avoid writing 3 functions
+function numberOfMembers(members, letter) {
     var numberOfMembersByParty = 0;
     for (var i = 0; i < members.length; i++) {
         var membersParty = members[i].party;
@@ -50,7 +50,6 @@ if (sumVotes(arrayOfMembers, "I") !== 0) {
 }
 statistics.Total.votedWithParty = ((Number(statistics.Democrats.votedWithParty) + Number(statistics.Republicans.votedWithParty) + Number(statistics.Independents.votedWithParty)) / 3).toFixed(2);
 
-// console.log(statistics);
 
 
 function sumVotes(members, letter) {
@@ -64,55 +63,55 @@ function sumVotes(members, letter) {
 }
 
 // move values to html table ----------- why does the sequence of the output change in HTML??? 
-function forHtmlTable(object) {
-    var tbody = document.getElementById("stats");
-    for (let keys in object) {
-        var row = tbody.insertRow(0);
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
+function forHtmlTable(anyArray, tbodyId) {
+    var tbody = document.getElementById(tbodyId);
+    for (let keys in anyArray) {
+        var row = tbody.insertRow(-1); // senate file, it works fine. with a different ID ref. "house", 
+        var cell1 = row.insertCell(0); // it deletes all data in "senate" and does not populate "house"
+        var cell2 = row.insertCell(1); // error msg: statistics.js:69 Uncaught TypeError: Cannot read property 'insertRow' of null
         var cell3 = row.insertCell(2);
 
         cell1.innerHTML = [keys];
-        cell2.innerHTML = object[keys].NoOfReps;
-        cell3.innerHTML = object[keys].votedWithParty;
+        cell2.innerHTML = anyArray[keys].NoOfReps;
+        cell3.innerHTML = anyArray[keys].votedWithParty;
     }
 }
-forHtmlTable(statistics);
+forHtmlTable(statistics, "senate");
+// forHtmlTable(statistics, "house");
 
 
 // // object for LEAST ARRAY table ************************************
 
-// declare array with ascending and descending missed votes
+// declare array with ascending and descending missed votes pct
 var sorterAsc = [];
 var sorterDesc = [];
 
 // ascending all pct over the complete members array
-function mainArrayAsc(myArray) {
-    for (var i = 0; i < myArray.length; i++) {
-        sorterAsc.push(myArray[i].missed_votes_pct);
+function mainArrayAsc(anyArray) {
+    for (var i = 0; i < anyArray.length; i++) {
+        sorterAsc.push(anyArray[i])
     }
     sorterAsc.sort(function (a, b) {
-        return a - b
+        return a["missed_votes_pct"] - b["missed_votes_pct"]
     })
 };
 mainArrayAsc(arrayOfMembers);
 
 // descending all pct over the complete members array
-function mainArrayDesc(myArray) {
-    for (var i = 0; i < myArray.length; i++) {
-        sorterDesc.push(myArray[i].missed_votes_pct);
+function mainArrayDesc(anyArray) {
+    for (var i = 0; i < anyArray.length; i++) {
+        sorterDesc.push(anyArray[i]);
     }
     sorterDesc.sort(function (a, b) {
-        return b - a
+        return b["missed_votes_pct"] - a["missed_votes_pct"]
     })
 };
 mainArrayDesc(arrayOfMembers);
 
 // show complete arrays sorted ascending & descending
 console.log(sorterAsc);
-console.log(sorterDesc);
 
-// TODO: make a function out of it and replace missed_votes_pct; as needed for other parameters later
+// ++++++ TODO: make a function out of it and replace missed_votes_pct; as needed for other parameters later ++++++
 
 // for sorted array slice out TOP10%
 var slicedArrayAsc = sorterAsc.slice(0, Math.round((arrayOfMembers.length * 0.1)));
@@ -121,22 +120,24 @@ var slicedArrayDesc = sorterDesc.slice(0, Math.round((arrayOfMembers.length * 0.
 console.log(slicedArrayDesc);
 
 
-// move values to html table    
-function forHtmlTable1(object, tbodyId) {
+// move values to html tables
+function forHtmlTable1(anyArray, tbodyId) {
     var tbody = document.getElementById(tbodyId);
-    for (let keys = 0; keys < object.length; keys++) {
-        console.log(object[keys].first_name)
+    for (var k = 0; k < anyArray.length; k++) {
         var row = tbody.insertRow(-1);
         var cell1 = row.insertCell(0);
         var cell2 = row.insertCell(1);
         var cell3 = row.insertCell(2);
-        if (object[keys].middle_name == null) {
-            object[keys].middle_name = "";
+        if (anyArray[k].middle_name == null) {
+            anyArray[k].middle_name = "";
         }
-        cell1.innerHTML = `${object[keys].first_name} ${object[keys].middle_name} ${object[keys].last_name}`;
-        cell2.innerHTML = object[keys].missed_votes;
-        cell3.innerHTML = object[keys].missed_votes_pct;
+        cell1.innerHTML = `${anyArray[k].first_name} ${anyArray[k].middle_name} ${anyArray[k].last_name}`;
+        cell2.innerHTML = anyArray[k].missed_votes;
+        cell3.innerHTML = anyArray[k].missed_votes_pct;
     }
 }
-forHtmlTable1(slicedArray, "least-stats");
-forHtmlTable1(slicedArray, "top-stats"); // why is the sorting reversed??   ** same as with statistics mapping into table --> start with row counter -1
+forHtmlTable1(slicedArrayAsc, "least");
+forHtmlTable1(slicedArrayDesc, "top");
+
+forHtmlTable1(slicedArrayAsc, "h_least"); // does not populate html.tables but here, the senate file stays as is
+forHtmlTable1(slicedArrayDesc, "h_top");
