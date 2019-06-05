@@ -82,72 +82,61 @@ forHtmlTable(statistics);
 
 // // object for LEAST ARRAY table ************************************
 
-// create descending array with SORTING PARAMETER (here first: all missed votes)
-var sorter = [];
+// declare array with ascending and descending missed votes
+var sorterAsc = [];
+var sorterDesc = [];
 
-function mainArray(myArray) {
+// ascending all pct over the complete members array
+function mainArrayAsc(myArray) {
     for (var i = 0; i < myArray.length; i++) {
-        sorter.push(myArray[i].missed_votes_pct);
+        sorterAsc.push(myArray[i].missed_votes_pct);
     }
-    sorter.sort(function (a, b) {
+    sorterAsc.sort(function (a, b) {
+        return a - b
+    })
+};
+mainArrayAsc(arrayOfMembers);
+
+// descending all pct over the complete members array
+function mainArrayDesc(myArray) {
+    for (var i = 0; i < myArray.length; i++) {
+        sorterDesc.push(myArray[i].missed_votes_pct);
+    }
+    sorterDesc.sort(function (a, b) {
         return b - a
     })
-
-    console.log(sorter);
 };
-mainArray(arrayOfMembers);
+mainArrayDesc(arrayOfMembers);
 
-// TODO: make a function out of it and replace missed_votes; as needed for other parameters later
-arrayOfMembers.sort((a, b) => Number(b.missed_votes_pct) - Number(a.missed_votes_pct));
+// show complete arrays sorted ascending & descending
+console.log(sorterAsc);
+console.log(sorterDesc);
 
-console.log(arrayOfMembers[0].missed_votes_pct);
-console.log(arrayOfMembers[1].missed_votes_pct);
-console.log(arrayOfMembers[2].missed_votes_pct);
+// TODO: make a function out of it and replace missed_votes_pct; as needed for other parameters later
 
 // for sorted array slice out TOP10%
-var slicedArray = arrayOfMembers.slice(0, Math.round((arrayOfMembers.length * 0.1)));
-
-console.log(slicedArray);
-// console.log(slicedArray[0].first_name);
-console.log(typeof (slicedArray[0]));
-
-
-// names parameters concatenation
-var fullName;
-var lastName = data.results[0].members.last_name;
-var firstName = data.results[0].members.first_name;
-var middleName = data.results[0].members.middle_name;
-if (middleName == null) {
-    fullName = `${lastName} ${firstName}`;
-} else {
-    fullName = `${lastName} ${firstName} ${middleName}`;
-}
-
-// show other parameters
-function showOtherParams(object) {
-    for (var i = 0; i < object.length; i++) {
-        console.log(slicedArray[i].fullName); // why not shown in console??
-        console.log(slicedArray[i].missed_votes);
-        console.log(slicedArray[i].missed_votes_pct);
-    }
-}
-showOtherParams(slicedArray);
-
+var slicedArrayAsc = sorterAsc.slice(0, Math.round((arrayOfMembers.length * 0.1)));
+console.log(slicedArrayAsc);
+var slicedArrayDesc = sorterDesc.slice(0, Math.round((arrayOfMembers.length * 0.1)));
+console.log(slicedArrayDesc);
 
 
 // move values to html table    
-function forHtmlTable1(object) {
-    var tbody = document.getElementById("top-stats");
-    for (let keys in object) {
-        var row = tbody.insertRow(0);
+function forHtmlTable1(object, tbodyId) {
+    var tbody = document.getElementById(tbodyId);
+    for (let keys = 0; keys < object.length; keys++) {
+        console.log(object[keys].first_name)
+        var row = tbody.insertRow(-1);
         var cell1 = row.insertCell(0);
         var cell2 = row.insertCell(1);
         var cell3 = row.insertCell(2);
-
-        cell1.innerHTML = object[keys].fullName;
+        if (object[keys].middle_name == null) {
+            object[keys].middle_name = "";
+        }
+        cell1.innerHTML = `${object[keys].first_name} ${object[keys].middle_name} ${object[keys].last_name}`;
         cell2.innerHTML = object[keys].missed_votes;
         cell3.innerHTML = object[keys].missed_votes_pct;
     }
 }
-forHtmlTable1(slicedArray);
-// why is the sorting reversed??   ** same as with statistics mapping into table
+forHtmlTable1(slicedArray, "least-stats");
+forHtmlTable1(slicedArray, "top-stats"); // why is the sorting reversed??   ** same as with statistics mapping into table --> start with row counter -1
