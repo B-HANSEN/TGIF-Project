@@ -42,17 +42,15 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="senate-data.html">Senate</a>
-                        <a class="dropdown-item" href="#">House</a>
+                        <a class="dropdown-item" href="house-data.html">House</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Attendance
-                    </a>
+                    <a a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Attendance</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="">Senate</a>
-                        <a class="dropdown-item" href="">House</a>
+                        <a class="dropdown-item" href="senate_attendance.html">Senate</a>
+                        <a class="dropdown-item" href="house_attendance.html">House</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -61,7 +59,7 @@
                         Party Loyalty
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="">Senate</a>
+                        <a class="dropdown-item" href="senate_loyalty.html">Senate</a>
                         <a class="dropdown-item" href="#">House</a>
                     </div>
                 </li>
@@ -76,8 +74,8 @@
 <div class="d-flex flex-column" style=margin-top:250px>
     <div class="d-flex flex-row justify-content-between">
         <div style=width:800px>
-            <h2>Party Loyalty</h2>
-            <p>Those who consider themselves to be strong partisans, strong Democrats and strong
+            <h2 class="ml-3">Party Loyalty</h2>
+            <p class="mx-5 mb-5">Those who consider themselves to be strong partisans, strong Democrats and strong
                 Republicans
                 respectively,
                 tend to be the most faithful in voting for their party's nominee for office and legislation that backs
@@ -86,7 +84,7 @@
         </div>
         <div style=width:800px>
             <h2>House at a glance</h2>
-            <table>
+            <table class="mx-5 mb-5" id="myTable">
                 <thead>
                     <tr>
                         <th>Party</th>
@@ -119,7 +117,7 @@
     <div class="d-flex justify-content-between">
         <div style=width:800px>
             <h2>Least Loyal (Bottom 10% of Party)</h2>
-            <table>
+            <table class="mx-5 mb-5">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -163,7 +161,7 @@
         </div>
         <div style=width:800px>
             <h2>Most Loyal (Top 10% of Party)</h2>
-            <table>
+            <table class="mx-5 mb-5">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -212,13 +210,17 @@
         </div>
     </div>
 
+
+
     <footer>
         <div class="navbar navbar-expand-sm bg-light" style="margin-top: 10px; justify-content: center">
             <p>© 2016 TGIF | All Rights Reserved</p>
         </div>
     </footer>
-</div>
-<script src="./styles/main_house.js"></script>
-</body>
+
+
+    <script src="./styles/pro-Congress-113-house.js"></script>
+    <script src="./styles/statistics.js"></script>
+    </body>
 
 </html>
