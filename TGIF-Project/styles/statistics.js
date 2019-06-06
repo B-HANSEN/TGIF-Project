@@ -29,10 +29,10 @@ statistics.Democrats.NoOfReps = numberOfMembers(arrayOfMembers, "D")
 statistics.Republicans.NoOfReps = numberOfMembers(arrayOfMembers, "R")
 statistics.Independents.NoOfReps = numberOfMembers(arrayOfMembers, "I")
 
-function numberOfMembers(members, letter) {
+function numberOfMembers(anyArray, letter) {
     var numberOfMembersByParty = 0;
-    for (var i = 0; i < members.length; i++) {
-        var membersParty = members[i].party;
+    for (var i = 0; i < anyArray.length; i++) {
+        var membersParty = anyArray[i].party;
         if (membersParty == letter) {
             numberOfMembersByParty++; // creating 3 different groups
         }
@@ -50,25 +50,23 @@ if (sumVotes(arrayOfMembers, "I") !== 0) {
 }
 statistics.Total.votedWithParty = ((Number(statistics.Democrats.votedWithParty) + Number(statistics.Republicans.votedWithParty) + Number(statistics.Independents.votedWithParty)) / 3).toFixed(2);
 
-
-
-function sumVotes(members, letter) {
+function sumVotes(anyArray, letter) {
     var allVotes = 0;
-    for (var i = 0; i < members.length; i++) {
-        if (members[i].party == letter) {
-            allVotes += members[i].votes_with_party_pct;
+    for (var i = 0; i < anyArray.length; i++) {
+        if (anyArray[i].party == letter) {
+            allVotes += anyArray[i].votes_with_party_pct;
         }
     }
     return allVotes;
 }
 
-// move values to html table ----------- why does the sequence of the output change in HTML??? 
+// move values to html table
 function forHtmlTable(anyArray, tbodyId) {
     var tbody = document.getElementById(tbodyId);
     for (let keys in anyArray) {
-        var row = tbody.insertRow(-1); // senate file, it works fine. with a different ID ref. "house", 
-        var cell1 = row.insertCell(0); // it deletes all data in "senate" and does not populate "house"
-        var cell2 = row.insertCell(1); // error msg: statistics.js:69 Uncaught TypeError: Cannot read property 'insertRow' of null
+        var row = tbody.insertRow(-1);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
         var cell3 = row.insertCell(2);
 
         cell1.innerHTML = [keys];
@@ -76,49 +74,45 @@ function forHtmlTable(anyArray, tbodyId) {
         cell3.innerHTML = anyArray[keys].votedWithParty;
     }
 }
-forHtmlTable(statistics, "senate");
-// forHtmlTable(statistics, "house");
+forHtmlTable(statistics, "glanceTable");
 
-
-// // object for LEAST ARRAY table ************************************
+// *********************************************************************************************************************
 
 // declare array with ascending and descending missed votes pct
 var sorterAsc = [];
 var sorterDesc = [];
 
 // ascending all pct over the complete members array
-function mainArrayAsc(anyArray) {
+function mainArrayAsc(anyArray, criterion) {
     for (var i = 0; i < anyArray.length; i++) {
         sorterAsc.push(anyArray[i])
-    }
+    };
     sorterAsc.sort(function (a, b) {
-        return a["missed_votes_pct"] - b["missed_votes_pct"]
-    })
+        return b[criterion] - a[criterion];
+    });
+    sorterAsc = sorterAsc.slice(0, Math.round((anyArray.length * 0.1)));
 };
-mainArrayAsc(arrayOfMembers);
+if (document.URL.includes("attendance")) {
+    mainArrayAsc(arrayOfMembers, "missed_votes_pct")
+} else {
+    mainArrayAsc(arrayOfMembers, "votes_with_party_pct")
+}
 
 // descending all pct over the complete members array
-function mainArrayDesc(anyArray) {
+function mainArrayDesc(anyArray, criterion) {
     for (var i = 0; i < anyArray.length; i++) {
         sorterDesc.push(anyArray[i]);
-    }
+    };
     sorterDesc.sort(function (a, b) {
-        return b["missed_votes_pct"] - a["missed_votes_pct"]
-    })
+        return a[criterion] - b[criterion];
+    });
+    sorterDesc = sorterDesc.slice(0, Math.round((anyArray.length * 0.1)));
 };
-mainArrayDesc(arrayOfMembers);
-
-// show complete arrays sorted ascending & descending
-console.log(sorterAsc);
-
-// ++++++ TODO: make a function out of it and replace missed_votes_pct; as needed for other parameters later ++++++
-
-// for sorted array slice out TOP10%
-var slicedArrayAsc = sorterAsc.slice(0, Math.round((arrayOfMembers.length * 0.1)));
-console.log(slicedArrayAsc);
-var slicedArrayDesc = sorterDesc.slice(0, Math.round((arrayOfMembers.length * 0.1)));
-console.log(slicedArrayDesc);
-
+if (document.URL.includes("attendance")) {
+    mainArrayDesc(arrayOfMembers, "missed_votes_pct")
+} else {
+    mainArrayDesc(arrayOfMembers, "votes_with_party_pct")
+};
 
 // move values to html tables
 function forHtmlTable1(anyArray, tbodyId) {
@@ -132,12 +126,33 @@ function forHtmlTable1(anyArray, tbodyId) {
             anyArray[k].middle_name = "";
         }
         cell1.innerHTML = `${anyArray[k].first_name} ${anyArray[k].middle_name} ${anyArray[k].last_name}`;
+        // cell2.innerHTML = anyArray[k][crt1];
         cell2.innerHTML = anyArray[k].missed_votes;
         cell3.innerHTML = anyArray[k].missed_votes_pct;
     }
 }
-forHtmlTable1(slicedArrayAsc, "least");
-forHtmlTable1(slicedArrayDesc, "top");
 
-forHtmlTable1(slicedArrayAsc, "h_least"); // does not populate html.tables but here, the senate file stays as is
-forHtmlTable1(slicedArrayDesc, "h_top");
+function forHtmlTable2(anyArray, tbodyId) {
+    var tbody = document.getElementById(tbodyId);
+    for (var k = 0; k < anyArray.length; k++) {
+        var row = tbody.insertRow(-1);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        if (anyArray[k].middle_name == null) {
+            anyArray[k].middle_name = "";
+        }
+        cell1.innerHTML = `${anyArray[k].first_name} ${anyArray[k].middle_name} ${anyArray[k].last_name}`;
+        cell2.innerHTML = anyArray[k].total_votes;
+        cell3.innerHTML = anyArray[k].votes_with_party_pct;
+        // cell3.innerHTML = anyArray[k][crt2];
+    }
+}
+if (document.URL.includes("attendance")) {
+    // forHtmlTable1((sorterAsc, "least"), missed_votes);
+    forHtmlTable1(sorterAsc, "least");
+    forHtmlTable1(sorterDesc, "top");
+} else {
+    forHtmlTable2(sorterDesc, "leastloyalty");
+    forHtmlTable2(sorterAsc, "toployalty");
+}
