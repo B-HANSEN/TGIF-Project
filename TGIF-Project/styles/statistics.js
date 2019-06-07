@@ -90,28 +90,18 @@ var sorterDesc = [];
 
 // ascending all pct over the complete members array
 function mainArrayAsc(anyArray, criterion) {
-    for (var m = 0; m < anyArray.length; m++) { // urspruenglich fill, sort, cut
-        sorterAsc.push(anyArray[m]);
-        sorterAsc.sort(function (a, b) {
-            return a[criterion] - b[criterion];
-        });
-        sorterAsc = sorterAsc.slice(0, Math.round((anyArray.length * 0.1))); of (anyArray)
+    var perc = Math.round((anyArray.length * 0.1));
+    anyArray.sort(function (a, b) {
+        return a[criterion] - b[criterion];
+    });
+    sorterAsc = anyArray.slice(0, perc);
 
-
-        // if (anyArray[i].party == letter) {
-        //     allVotes += anyArray[i].votes_with_party_pct;
-        // }
-
-        // if (m <= (anyArray.length * 0.1)) {
-        //     sorterAsc.push(anyArray[m])
-        // } else if (anyArray[m] == anyArray[m - 1]) {
-        //     sorterAsc.push(anyArray[m])
-        // } else {
-        //     break
-        // }
-        // sorterAsc.sort(function (a, b) {
-        //     return a[criterion] - b[criterion];
-        // });
+    for (var i = perc; i < anyArray.length; i++) {
+        if (sorterAsc[perc - 1][criterion] == anyArray[i][criterion]) {
+            sorterAsc.push(anyArray[i]);
+        } else {
+            break
+        }
     }
 }
 if (document.URL.includes("attendance")) {
@@ -119,27 +109,32 @@ if (document.URL.includes("attendance")) {
 } else {
     mainArrayAsc(arrayOfMembers, "votes_with_party_pct")
 }
+
 // descending all pct over the complete members array
 function mainArrayDesc(anyArray, criterion) {
-    for (var m = 0; m < anyArray.length; m++) {
-        sorterDesc.push(anyArray[m]);
-        sorterDesc.sort(function (a, b) {
-            return b[criterion] - a[criterion];
-        });
-        sorterDesc = sorterDesc.slice(0, Math.round((anyArray.length * 0.1)));
+    var perc = Math.round((anyArray.length * 0.1));
+    anyArray.sort(function (a, b) {
+        return b[criterion] - a[criterion]
+    });
+    sorterDesc = anyArray.slice(0, perc);
 
-        // if (m <= (anyArray.length * 0.1)) {
-        //     sorterDesc.push(anyArray[m])
-        // } else if (anyArray[m] == anyArray[m - 1]) {
-        //     sorterDesc.push(anyArray[m])
-        // } else {
-        //     break
-        // }
-        // sorterDesc.sort(function (a, b) {
-        //     return b[criterion] - a[criterion];
-        // });
+    for (var i = 0; i < anyArray.length; i++) {
+        if (sorterDesc[perc - 1][criterion] == anyArray[i][criterion]) {
+            sorterDesc.push(anyArray[i]);
+        } else {
+            break
+        }
     }
 }
+console.log(sorterDesc);
+for (var m = 0; m < sorterDesc.length; m++) {
+    if (sorterDesc[sorterDesc.length - 1][criterion] === anyArray[m][criterion]) {
+        sorterDesc = sorterDesc.push(anyArray[m])
+    } else {
+        break
+    }
+}
+console.log(sorterDesc);
 if (document.URL.includes("attendance")) {
     mainArrayDesc(arrayOfMembers, "missed_votes_pct")
 } else {
