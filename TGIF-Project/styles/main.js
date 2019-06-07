@@ -1,19 +1,19 @@
-var members = data.results[0].members; // declare variable and access in js.file that contains all members
+var arrayOfMembers = data.results[0].members; // declare variable and access in js.file that contains all members
 var tbody = document.getElementById("senate-data"); // connect variable with ID in HTML
 
-function createTable(arrayMembers) {
-    for (var i = 0; i < arrayMembers.length; i++) {
+function createTable(anyArray) {
+    for (var i = 0; i < anyArray.length; i++) {
         // CREATE item in HTML
         var tr = document.createElement("tr");
 
         // define variables and access from properties from json table
-        var lastName = arrayMembers[i].last_name;
-        var firstName = arrayMembers[i].first_name;
-        var middleName = arrayMembers[i].middle_name;
-        var party = arrayMembers[i].party;
-        var state = arrayMembers[i].state;
-        var seniority = arrayMembers[i].seniority;
-        var votes = arrayMembers[i].votes_with_party_pct;
+        var lastName = anyArray[i].last_name;
+        var firstName = anyArray[i].first_name;
+        var middleName = anyArray[i].middle_name;
+        var party = anyArray[i].party;
+        var state = anyArray[i].state;
+        var seniority = anyArray[i].seniority;
+        var votes = anyArray[i].votes_with_party_pct;
         var fullName;
 
         // define new variable fullName, in case there is a middle name Y/N
@@ -31,9 +31,9 @@ function createTable(arrayMembers) {
         var td_votes = document.createElement("td");
 
         // link to website if available; keep text fullName if not available
-        if (members[i].url != "") { // condition: property URL is not empty
+        if (arrayOfMembers[i].url != "") { // condition: property URL is not empty
             var membersURL = document.createElement("a");
-            membersURL.setAttribute("href", members[i].url);
+            membersURL.setAttribute("href", arrayOfMembers[i].url);
             membersURL.setAttribute("target", "_blank"); /// open a new browser tab
             td_fullName.append(membersURL);
             membersURL.innerHTML = fullName; /// declare available URL and set equal with fullName...
@@ -52,4 +52,46 @@ function createTable(arrayMembers) {
         tbody.append(tr);
     }
 }
-createTable(members);
+createTable(arrayOfMembers);
+
+
+// ********** working with checkboxes and filters **********
+
+// if change names of html element ids to match your variable names, can avoid using getElementById part
+
+var chbox = document.getElementById('selections');
+var x = document.getElementById('senate-data');
+
+chbox.addEventListener('click', myFunction);
+
+function myFunction() {
+    if (x.style.display === 'none') {
+        x.style.display = 'table-row-group';
+    } else {
+        x.style.display = 'none';
+    }
+}
+
+
+
+// function myFunction() {
+//     var x = document.getElementById('myDIV');
+//     if (x.style.display === 'none') {
+//       x.style.display = 'block';
+//     } else {
+//       x.style.display = 'none';
+//     }
+//   }
+
+// if (chbox.checked) {
+//     x.style.display = 'none';
+// } else {
+//     x.style.display = 'initial';
+// }
+// }
+
+// people = [{
+//             name: 'John',
+//             filters: [R]
+//         }
+// if select Dems in checkbox, show Dems / hide R / I

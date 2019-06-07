@@ -18,7 +18,7 @@
 <body>
     <header class="fixed-top bg-white" style="font-family: 'Comic Sans MS'">
 
-        <div class="" style="display: flex; justify-content:space-between">
+        <div style="display: flex; justify-content:space-between">
             <div>
                 <img class="logo mt-1 mb-1 ml-1" src="./images/screenshot.png" alt="logo" style="height:150px">
             </div>
@@ -103,18 +103,20 @@
     <!-- CHECK BOXES -->
     <div class="position-absolute d-inline-flex p-2 bd-highlight">
         <h2 class="mx-3">Filter by party</h2>
-        <label class="mx-2">
-            <input type="checkbox" name=party value="Republican">
-            Republican
-        </label>
-        <label class="mx-2">
-            <input type="checkbox" name=party value="Democrat">
-            Democrat
-        </label>
-        <label class="mx-2">
-            <input type="checkbox" name=party value="Independent">
-            Independent
-        </label>
+        <div class="mx-2">
+            <label id="selections" class="mx-2">
+                <input type="checkbox" name=party value="Republican">
+                Republican
+            </label>
+            <label class="mx-2">
+                <input type="checkbox" name=party value="Democrat">
+                Democrat
+            </label>
+            <label class="mx-2">
+                <input type="checkbox" name=party value="Independent">
+                Independent
+            </label>
+        </div>
 
     </div>
     <div>
@@ -143,7 +145,7 @@
         </div>
     </footer>
 
-    <script src="./styles/pro-Congress-113-senate.js"></script>
+    <script src="./styles/pro-congress-113-senate.js"></script>
     <script src="./styles/main.js"></script>
 
 </body>
