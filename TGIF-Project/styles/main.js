@@ -8,61 +8,59 @@ var tbody = document.getElementById("senate-data"); // connect variable with ID 
 // }
 
 function createTable(anyArray) {
-    tbody.innerHTML = "";
-    for (var i = 0; i < anyArray.length; i++) {
+  tbody.innerHTML = "";
+  for (var i = 0; i < anyArray.length; i++) {
+    // CREATE item in HTML
+    var tr = document.createElement("tr");
 
-        // CREATE item in HTML
-        var tr = document.createElement("tr");
+    // define variables and access from properties from json table
+    var lastName = anyArray[i].last_name;
+    var firstName = anyArray[i].first_name;
+    var middleName = anyArray[i].middle_name;
+    var party = anyArray[i].party;
+    var state = anyArray[i].state;
+    var seniority = anyArray[i].seniority;
+    var votes = anyArray[i].votes_with_party_pct;
+    var fullName;
 
-        // define variables and access from properties from json table
-        var lastName = anyArray[i].last_name;
-        var firstName = anyArray[i].first_name;
-        var middleName = anyArray[i].middle_name;
-        var party = anyArray[i].party;
-        var state = anyArray[i].state;
-        var seniority = anyArray[i].seniority;
-        var votes = anyArray[i].votes_with_party_pct;
-        var fullName;
-
-        // define new variable fullName, in case there is a middle name Y/N
-        if (middleName == null) {
-            fullName = `${lastName} ${firstName}`;
-        } else {
-            fullName = `${lastName} ${firstName} ${middleName}`;
-        }
-
-        // creation of table data
-        var td_fullName = document.createElement("td");
-        var td_party = document.createElement("td");
-        var td_state = document.createElement("td");
-        var td_seniority = document.createElement("td");
-        var td_votes = document.createElement("td");
-
-        // link to website if available; keep text fullName if not available
-        if (arrayOfMembers[i].url != "") {
-            // condition: property URL is not empty
-            var membersURL = document.createElement("a");
-            membersURL.setAttribute("href", arrayOfMembers[i].url);
-            membersURL.setAttribute("target", "_blank"); /// open a new browser tab
-            td_fullName.append(membersURL);
-            membersURL.innerHTML = fullName; /// declare available URL and set equal with fullName...
-        } else {
-            td_fullName.innerHTML = fullName; /// ... show fullName if/ if no URL available
-        }
-
-        // assign values to table data
-        td_party.innerHTML = party;
-        td_state.innerHTML = state;
-        td_seniority.innerHTML = seniority;
-        td_votes.innerHTML = votes + " %";
-
-        // append cells to rows; then append rows to body
-        tr.append(td_fullName, td_party, td_state, td_seniority, td_votes);
-        tbody.append(tr);
+    // define new variable fullName, in case there is a middle name Y/N
+    if (middleName == null) {
+      fullName = `${lastName} ${firstName}`;
+    } else {
+      fullName = `${lastName} ${firstName} ${middleName}`;
     }
+
+    // creation of table data
+    var td_fullName = document.createElement("td");
+    var td_party = document.createElement("td");
+    var td_state = document.createElement("td");
+    var td_seniority = document.createElement("td");
+    var td_votes = document.createElement("td");
+
+    // link to website if available; keep text fullName if not available
+    if (arrayOfMembers[i].url != "") {
+      // condition: property URL is not empty
+      var membersURL = document.createElement("a");
+      membersURL.setAttribute("href", arrayOfMembers[i].url);
+      membersURL.setAttribute("target", "_blank"); /// open a new browser tab
+      td_fullName.append(membersURL);
+      membersURL.innerHTML = fullName; /// declare available URL and set equal with fullName...
+    } else {
+      td_fullName.innerHTML = fullName; /// ... show fullName if/ if no URL available
+    }
+
+    // assign values to table data
+    td_party.innerHTML = party;
+    td_state.innerHTML = state;
+    td_seniority.innerHTML = seniority;
+    td_votes.innerHTML = votes + " %";
+
+    // append cells to rows; then append rows to body
+    tr.append(td_fullName, td_party, td_state, td_seniority, td_votes);
+    tbody.append(tr);
+  }
 }
 createTable(arrayOfMembers);
-
 
 // ********** working with checkboxes and filters **********
 
@@ -71,38 +69,72 @@ var partyDems = [];
 var partyReps = [];
 var partyIndies = [];
 
-
 sorterFunction(arrayOfMembers);
 
 // function to create array per party
 function sorterFunction(anyArray) {
-
-    for (var i = 0; i < anyArray.length; i++) {
-        if (anyArray[i].party == "D") {
-            partyDems.push(anyArray[i])
-        } else if (anyArray[i].party == "R") {
-            partyReps.push(anyArray[i]);
-        } else if (anyArray[i].party == "I") {
-            partyIndies.push(anyArray[i]);
-        }
+  for (var i = 0; i < anyArray.length; i++) {
+    if (anyArray[i].party == "D") {
+      partyDems.push(anyArray[i]);
+    } else if (anyArray[i].party == "R") {
+      partyReps.push(anyArray[i]);
+    } else if (anyArray[i].party == "I") {
+      partyIndies.push(anyArray[i]);
     }
+  }
 }
 
-dem = document.getElementById("Dems")
-rep = document.getElementById("Reps")
-ind = document.getElementById("Indies")
+dem = document.getElementById("Dems");
+console.log(partyDems);
+rep = document.getElementById("Reps");
+console.log(partyReps);
+ind = document.getElementById("Indies");
+console.log(partyIndies);
 
+// add EventListeners
+rep.addEventListener("click", function() {
+  combineArrays();
+});
+ind.addEventListener("click", function() {
+  combineArrays();
+});
+dem.addEventListener("click", function() {
+  combineArrays();
+});
 
-dem.addEventListener("click", function () {
-    createTable(partyDems);
-})
-rep.addEventListener("click", function () {
-    createTable(partyReps);
-})
-ind.addEventListener("click", function () {
-    createTable(partyIndies);
-})
+var partyDemsInds = partyDems.concat(partyIndies);
 
+// function that checks if chechbox is checked
+function combineArrays() {
+  for (i = 0; i < arrayOfMembers.length; i++) {
+    if (dem.checked && ind.checked) {
+      console.log(ind.checked, dem.checked);
+      createTable(partyDemsInds);
+    } else {
+      createTable("");
+    }
+  }
+}
+
+// dem.addEventListener("click", function () {
+//     createTable(partyDems);
+// })
+// rep.addEventListener("click", function () {
+//     createTable(partyReps);
+// })
+// ind.addEventListener("click", function () {
+//     createTable(partyIndies);
+// })
+
+// var coffee = document.forms[0];
+// var txt = "";
+// var i;
+// for (i = 0; i < coffee.length; i++) {
+//   if (coffee[i].checked) {
+//     txt = txt + coffee[i].value + " ";
+//   }
+// }
+// document.getElementById("order").value = "You ordered a coffee with: " + txt;
 
 // x.addEventListener("click", myFunction);
 // y.addEventListener("click", myFunction);
@@ -135,16 +167,14 @@ ind.addEventListener("click", function () {
 //     }
 // }
 
-
 // if (document.URL.includes("attendance")) {
 //     mainArrayAsc(arrayOfMembers, "missed_votes_pct")
 // } else {
 //     mainArrayAsc(arrayOfMembers, "votes_with_party_pct")
 // }
 
-
 // document.getElementById("myBtn").addEventListener("click", myFunction);
 
 // function myFunction() {
 //   document.getElementById("demo").innerHTML = "Hello World";
-// }
+//
