@@ -1,8 +1,16 @@
 var arrayOfMembers = data.results[0].members; // declare variable and access in js.file that contains all members
 var tbody = document.getElementById("senate-data"); // connect variable with ID in HTML
 
+// document.getElementById("myBtn").addEventListener("click", myFunction);
+
+// function myFunction() {
+//   document.getElementById("demo").innerHTML = "Hello World";
+// }
+
 function createTable(anyArray) {
+    tbody.innerHTML = "";
     for (var i = 0; i < anyArray.length; i++) {
+
         // CREATE item in HTML
         var tr = document.createElement("tr");
 
@@ -31,14 +39,15 @@ function createTable(anyArray) {
         var td_votes = document.createElement("td");
 
         // link to website if available; keep text fullName if not available
-        if (arrayOfMembers[i].url != "") { // condition: property URL is not empty
+        if (arrayOfMembers[i].url != "") {
+            // condition: property URL is not empty
             var membersURL = document.createElement("a");
             membersURL.setAttribute("href", arrayOfMembers[i].url);
             membersURL.setAttribute("target", "_blank"); /// open a new browser tab
             td_fullName.append(membersURL);
             membersURL.innerHTML = fullName; /// declare available URL and set equal with fullName...
         } else {
-            td_fullName.innerHTML = fullName /// ... show fullName if/ if no URL available
+            td_fullName.innerHTML = fullName; /// ... show fullName if/ if no URL available
         }
 
         // assign values to table data
@@ -57,41 +66,85 @@ createTable(arrayOfMembers);
 
 // ********** working with checkboxes and filters **********
 
-// if change names of html element ids to match your variable names, can avoid using getElementById part
+// create array by party and push all info into it
+var partyDems = [];
+var partyReps = [];
+var partyIndies = [];
 
-var chbox = document.getElementById('selections');
-var x = document.getElementById('senate-data');
 
-chbox.addEventListener('click', myFunction);
+sorterFunction(arrayOfMembers);
 
-function myFunction() {
-    if (x.style.display === 'none') {
-        x.style.display = 'table-row-group';
-    } else {
-        x.style.display = 'none';
+// function to create array per party
+function sorterFunction(anyArray) {
+
+    for (var i = 0; i < anyArray.length; i++) {
+        if (anyArray[i].party == "D") {
+            partyDems.push(anyArray[i])
+        } else if (anyArray[i].party == "R") {
+            partyReps.push(anyArray[i]);
+        } else if (anyArray[i].party == "I") {
+            partyIndies.push(anyArray[i]);
+        }
     }
 }
 
+dem = document.getElementById("Dems")
+rep = document.getElementById("Reps")
+ind = document.getElementById("Indies")
 
+
+dem.addEventListener("click", function () {
+    createTable(partyDems);
+})
+rep.addEventListener("click", function () {
+    createTable(partyReps);
+})
+ind.addEventListener("click", function () {
+    createTable(partyIndies);
+})
+
+
+// x.addEventListener("click", myFunction);
+// y.addEventListener("click", myFunction);
+// z.addEventListener("click", myFunction);
+
+// access IDs in HTML and define variables
+// x = document.getElementById("Dems").addEventListener("click", myFunction);
+// y = document.getElementById("Reps").addEventListener("click", myFunction);
+// z = document.getElementById("Indies").addEventListener("click", myFunction);
+
+// document.addEventListener("click", function () {
+//     myFunction(p1, p2);
+// });
 
 // function myFunction() {
-//     var x = document.getElementById('myDIV');
-//     if (x.style.display === 'none') {
-//       x.style.display = 'block';
-//     } else {
-//       x.style.display = 'none';
+//     if (x.addEventListener("click", createTable(partyDems)) createTable(partyDems)
 //     }
-//   }
+//     else if (z) {
+//         createTable(partyIndie)
+//     }
+// }
+// myFunction();
 
-// if (chbox.checked) {
-//     x.style.display = 'none';
+// function myFunction() {
+//     if (x) {
+//     } else if (y) {
+//         createTable(partyDems)
+//     } else if (z) {
+//         createTable(partyIndie)
+//     }
+// }
+
+
+// if (document.URL.includes("attendance")) {
+//     mainArrayAsc(arrayOfMembers, "missed_votes_pct")
 // } else {
-//     x.style.display = 'initial';
-// }
+//     mainArrayAsc(arrayOfMembers, "votes_with_party_pct")
 // }
 
-// people = [{
-//             name: 'John',
-//             filters: [R]
-//         }
-// if select Dems in checkbox, show Dems / hide R / I
+
+// document.getElementById("myBtn").addEventListener("click", myFunction);
+
+// function myFunction() {
+//   document.getElementById("demo").innerHTML = "Hello World";
+// }

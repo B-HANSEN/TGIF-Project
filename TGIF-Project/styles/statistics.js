@@ -153,7 +153,6 @@ function forHtmlTable1(anyArray, tbodyId) {
             anyArray[k].middle_name = "";
         }
         cell1.innerHTML = `${anyArray[k].first_name} ${anyArray[k].middle_name} ${anyArray[k].last_name}`;
-        // cell2.innerHTML = anyArray[k][crt1];
         cell2.innerHTML = anyArray[k].missed_votes;
         cell3.innerHTML = anyArray[k].missed_votes_pct;
     }
@@ -172,11 +171,9 @@ function forHtmlTable2(anyArray, tbodyId) {
         cell1.innerHTML = `${anyArray[n].first_name} ${anyArray[n].middle_name} ${anyArray[n].last_name}`;
         cell2.innerHTML = anyArray[n].total_votes;
         cell3.innerHTML = anyArray[n].votes_with_party_pct;
-        // cell3.innerHTML = anyArray[k][crt2];
     }
 }
 if (document.URL.includes("attendance")) {
-    // forHtmlTable1((sorterAsc, "least"), missed_votes);
     forHtmlTable1(sorterDesc, "least");
     forHtmlTable1(sorterAsc, "top");
 } else {
