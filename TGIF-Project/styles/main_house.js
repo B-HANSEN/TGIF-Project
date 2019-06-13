@@ -1,8 +1,8 @@
 var members = data.results[0].members;
 var tbody = document.getElementById("house-data");
 
-function createTable(arrayMembers) {
-    for (var i = 0; i < arrayMembers.length; i++) {
+function createTable(anyArray) {
+    for (var i = 0; i < anyArrayMembers.length; i++) {
         var tr = document.createElement("tr");
 
         var lastName = arrayMembers[i].last_name;
@@ -46,3 +46,70 @@ function createTable(arrayMembers) {
     }
 }
 createTable(members);
+
+
+// ********** working with checkboxes and filters **********
+
+// create array by party; initialise
+var partyDems = [];
+var partyReps = [];
+var partyIndies = [];
+
+// function to create array per party
+function sorterFunction(anyArray) {
+    for (var i = 0; i < anyArray.length; i++) {
+        if (anyArray[i].party == "D") {
+            partyDems.push(anyArray[i]);
+        } else if (anyArray[i].party == "R") {
+            partyReps.push(anyArray[i]);
+        } else if (anyArray[i].party == "I") {
+            partyIndies.push(anyArray[i]);
+        }
+    }
+}
+sorterFunction(arrayOfMembers);
+
+
+// access Elements in html and declare variables
+dem = document.getElementById("Dems");
+rep = document.getElementById("Reps");
+ind = document.getElementById("Indies");
+
+// add EventListeners to variables
+rep.addEventListener("click", function () {
+    combineArrays();
+});
+ind.addEventListener("click", function () {
+    combineArrays();
+});
+dem.addEventListener("click", function () {
+    combineArrays();
+});
+
+// declare combined arrays with different party combinations
+var partyDemsInds = partyDems.concat(partyIndies);
+var partyDemsReps = partyDems.concat(partyReps);
+var partyIndReps = partyIndies.concat(partyReps);
+
+// function that checks if chechbox is checked and invoke createTable function
+function combineArrays() {
+    for (i = 0; i < arrayOfMembers.length; i++) {
+        if (rep.checked && dem.checked && ind.checked) {
+            createTable(arrayOfMembers);
+        } else if (dem.checked && ind.checked) {
+            createTable(partyDemsInds);
+        } else if (dem.checked && rep.checked) {
+            createTable(partyDemsReps);
+        } else if (ind.checked && rep.checked) {
+            createTable(partyIndReps);
+        } else if (ind.checked) {
+            createTable(partyIndies);
+        } else if (dem.checked) {
+            createTable(partyDems);
+        } else if (rep.checked) {
+            createTable(partyReps);
+        } else {
+            createTable(arrayOfMembers);
+        }
+    }
+}

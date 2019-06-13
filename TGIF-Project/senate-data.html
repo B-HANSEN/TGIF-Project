@@ -99,23 +99,32 @@
     </div>
 
     <!-- CHECK BOXES -->
-    <div class="position-absolute d-inline-flex p-2 bd-highlight">
-        <h2 class="mx-3">Filter by party</h2>
-        <div id="" class="mx-2">
-            <label id="" class="mx-2">
-                <input id="Reps" type="checkbox" name=party value="Republican">
-                Republican
-            </label>
-            <label id="" class="mx-2">
-                <input id="Dems" type="checkbox" name=party value="Democrat">
-                Democrat
-            </label>
-            <label id="" class="mx-2">
-                <input id="Indies" type="checkbox" name=party value="Independent">
-                Independent
-            </label>
+    <div class="d-flex justify-content-between p-2 m-5 bd-highlight">
+        <div class="d-flex">
+            <h2 class="mx-3">Filter by party</h2>
+            <div id="checkboxes" class="checkboxes">
+                <label id="" class="mx-2">
+                    <input id="Reps" class="chBox" type="checkbox" name=party value="R">
+                    Republican
+                </label>
+                <label id="" class="mx-2">
+                    <input id="Dems" class="chBox" type="checkbox" name=party value="D">
+                    Democrat
+                </label>
+                <label id="" class="mx-2">
+                    <input id="Indies" class="chBox" type="checkbox" name=party value="I">
+                    Independent
+                </label>
+            </div>
         </div>
-
+        <div class="d-flex">
+            <h2 class="mr-5">Filter by State</h2>
+            <select id="dropDownList" style="width:120px">
+                <option>All States</States>
+                </option>
+            </select>
+        </div>
+    </div>
     </div>
     <div>
         <table class="table-striped table-bordered table-condensed table-hover mx-auto"
