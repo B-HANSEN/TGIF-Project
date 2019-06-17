@@ -2,16 +2,14 @@ var ajaxloaxder = document.getElementById("ajaxloader");
 
 var members;
 
-
 if (window.location.href.includes("senate")) {
     getData("senate")
 } else {
     getData("house")
-
 }
 
-
 function getData(chamber) {
+    var chamber;
     fetch("https://api.propublica.org/congress/v1/113/" + chamber + "/members.json", {
         method: "GET",
         headers: {

@@ -11,29 +11,35 @@ function btnFn() {
     }
 }
 
-
 var ajaxloader = document.getElementById("ajaxloader");
 
 var members;
-fetch("https://api.propublica.org/congress/v1/113/senate/members.json", {
-    method: "GET",
-    headers: {
-        'X-API-Key': 'gpxI5jMm6JWOG7WlInZOFyaKP1wTYions6uW86Dd'
-    }
-}).then(function (response) {
-    return response.json();
-}).then(function (json) {
-    members = json.results[0].members;
-    eventListeners();
-    createDropDown();
-    createTable(members);
-    ajaxloader.style.display = 'none';
-}).catch(function (error) {
-    console.log("something went wrong");
-})
+var chamber;
+if (window.location.href.includes("senate")) {
+    getMembers("senate")
+} else {
+    getMembers("house")
+}
 
-// use 2 variables: tbodySen & tbodyHou
-var tbody = document.getElementById("senate-data"); // connect variable with ID in HTML
+function getMembers(chamber) {
+    fetch("https://api.propublica.org/congress/v1/113/" + chamber + "/members.json", {
+        method: "GET",
+        headers: {
+            'X-API-Key': 'gpxI5jMm6JWOG7WlInZOFyaKP1wTYions6uW86Dd'
+        }
+    }).then(function (response) {
+        return response.json();
+    }).then(function (json) {
+        members = json.results[0].members;
+        eventListeners();
+        createDropDown();
+        createTable(members);
+        ajaxloader.style.display = 'none';
+    }).catch(function (error) {
+        console.log("something went wrong");
+    })
+}
+
 var partyCode = document.querySelectorAll(".chBox");
 
 // access Elements in html and declare variables
@@ -49,7 +55,7 @@ function eventListeners() {
 }
 
 function createTable(anyArray) {
-    // split 2 body into 2 lines: tbodySen & tbodyHou
+    var tbody = document.getElementById("tdata");
     tbody.innerHTML = "";
     var noShow = document.getElementById("no-members")
 
@@ -137,7 +143,6 @@ function activeBoxFn() {
 
 function activeOptionFn(anyArray) {
     var filteredMembersByState = [];
-    // dropDownList must be subdivided into Sen & Hou
     selectValue = document.getElementById("dropDownList").value
     if (selectValue == "All States") {
         createTable(anyArray);
