@@ -1,76 +1,117 @@
-var arrayOfMembers = data.results[0].members; // declare variable and access in js.file that contains all members
-var tbody = document.getElementById("senate-data"); // connect variable with ID in HTML
+function btnFn() {
+    var moreText = document.getElementById("more");
+    var btnText = document.getElementById("myBtn");
 
-function createTable(anyArray) {
-    tbody.innerHTML = "";
-    for (var i = 0; i < anyArray.length; i++) {
-        // CREATE item in HTML
-        var tr = document.createElement("tr");
-
-        // define variables and access from properties from json table
-        var lastName = anyArray[i].last_name;
-        var firstName = anyArray[i].first_name;
-        var middleName = anyArray[i].middle_name;
-        var party = anyArray[i].party;
-        var state = anyArray[i].state;
-        var seniority = anyArray[i].seniority;
-        var votes = anyArray[i].votes_with_party_pct;
-        var fullName;
-
-        // define new variable fullName, in case there is a middle name Y/N
-        if (middleName == null) {
-            fullName = `${lastName} ${firstName}`;
-        } else {
-            fullName = `${lastName} ${firstName} ${middleName}`;
-        }
-
-        // creation of table data
-        var td_fullName = document.createElement("td");
-        var td_party = document.createElement("td");
-        var td_state = document.createElement("td");
-        var td_seniority = document.createElement("td");
-        var td_votes = document.createElement("td");
-
-        // link to website if available; keep text fullName if not available
-        if (arrayOfMembers[i].url != "") {
-            // condition: property URL is not empty
-            var membersURL = document.createElement("a");
-            membersURL.setAttribute("href", arrayOfMembers[i].url);
-            membersURL.setAttribute("target", "_blank"); /// open a new browser tab
-            td_fullName.append(membersURL);
-            membersURL.innerHTML = fullName; /// declare available URL and set equal with fullName...
-        } else {
-            td_fullName.innerHTML = fullName; /// ... show fullName if/ if no URL available
-        }
-
-        // assign values to table data
-        td_party.innerHTML = party;
-        td_state.innerHTML = state;
-        td_seniority.innerHTML = seniority;
-        td_votes.innerHTML = votes + " %";
-
-        // append cells to rows; then append rows to body
-        tr.append(td_fullName, td_party, td_state, td_seniority, td_votes);
-        tbody.append(tr);
+    if (dots.style.display === "none") {
+        btnText.innerHTML = "Read more";
+        moreText.style.display = "none";
+    } else {
+        btnText.innerHTML = "Read less";
+        moreText.style.display = "inline";
     }
 }
-createTable(arrayOfMembers);
 
-// ********** CHECKBOX FILTERS **********
+
+var ajaxloader = document.getElementById("ajaxloader");
+
+var members;
+fetch("https://api.propublica.org/congress/v1/113/senate/members.json", {
+    method: "GET",
+    headers: {
+        'X-API-Key': 'gpxI5jMm6JWOG7WlInZOFyaKP1wTYions6uW86Dd'
+    }
+}).then(function (response) {
+    return response.json();
+}).then(function (json) {
+    members = json.results[0].members;
+    eventListeners();
+    createDropDown();
+    createTable(members);
+    ajaxloader.style.display = 'none';
+}).catch(function (error) {
+    console.log("something went wrong");
+})
+
+// use 2 variables: tbodySen & tbodyHou
+var tbody = document.getElementById("senate-data"); // connect variable with ID in HTML
+var partyCode = document.querySelectorAll(".chBox");
 
 // access Elements in html and declare variables
 dem = document.getElementById("Dems");
 rep = document.getElementById("Reps");
 ind = document.getElementById("Indies");
 
-// add EventListeners to variables
-rep.addEventListener("click", activeBoxFn);
-ind.addEventListener("click", activeBoxFn);
-dem.addEventListener("click", activeBoxFn);
+function eventListeners() {
+    rep.addEventListener("click", activeBoxFn);
+    ind.addEventListener("click", activeBoxFn);
+    dem.addEventListener("click", activeBoxFn);
+    document.getElementById("dropDownList").addEventListener("change", activeBoxFn);
+}
 
-var partyCode = document.querySelectorAll(".chBox");
+function createTable(anyArray) {
+    // split 2 body into 2 lines: tbodySen & tbodyHou
+    tbody.innerHTML = "";
+    var noShow = document.getElementById("no-members")
 
-// function to identify checked boxes and show all if all unchecked; create table with values from selected checkboxes
+    if (anyArray.length == 0) {
+        noShow.style.display = "block"
+    } else {
+        noShow.style.display = "none";
+
+        for (var i = 0; i < anyArray.length; i++) {
+            // CREATE item in HTML
+            var tr = document.createElement("tr");
+
+            // define variables and access from properties from json table
+            var lastName = anyArray[i].last_name;
+            var firstName = anyArray[i].first_name;
+            var middleName = anyArray[i].middle_name;
+            var party = anyArray[i].party;
+            var state = anyArray[i].state;
+            var seniority = anyArray[i].seniority;
+            var votes = anyArray[i].votes_with_party_pct;
+            var fullName;
+
+            // define new variable fullName, in case there is a middle name Y/N
+            if (middleName == null) {
+                fullName = `${lastName} ${firstName}`;
+            } else {
+                fullName = `${lastName} ${firstName} ${middleName}`;
+            }
+
+            // creation of table data
+            var td_fullName = document.createElement("td");
+            var td_party = document.createElement("td");
+            var td_state = document.createElement("td");
+            var td_seniority = document.createElement("td");
+            var td_votes = document.createElement("td");
+
+            // link to website if available; keep text fullName if not available
+            if (anyArray[i].url != "") {
+                // condition: property URL is not empty
+                var membersURL = document.createElement("a");
+                membersURL.setAttribute("href", anyArray[i].url);
+                membersURL.setAttribute("target", "_blank"); /// open a new browser tab
+                td_fullName.append(membersURL);
+                membersURL.innerHTML = fullName; /// declare available URL and set equal with fullName...
+            } else {
+                td_fullName.innerHTML = fullName; /// ... show fullName if/ if no URL available
+            }
+            // assign values to table data
+            td_party.innerHTML = party;
+            td_state.innerHTML = state;
+            td_seniority.innerHTML = seniority;
+            td_votes.innerHTML = votes + " %";
+
+            // append cells to rows; then append rows to body
+            tr.append(td_fullName, td_party, td_state, td_seniority, td_votes);
+            tbody.append(tr);
+        }
+    }
+}
+
+// ******************************** CHECKBOX FILTERS *******************************
+// function to identify checked boxes
 function activeBoxFn() {
     var checkedValue = [];
     for (var i = 0; i < partyCode.length; i++) {
@@ -78,90 +119,54 @@ function activeBoxFn() {
             checkedValue.push(partyCode[i].value)
         }
     }
+    var filteredMembersByParty = [];
     if (checkedValue.length == 0) {
-        createTable(arrayOfMembers)
+        activeOptionFn(members);
     } else {
-        partyFilter(checkedValue);
-    }
-}
-
-// invoke in case at least one checkbox checked
-// run thru complete array and the selected checkbox array; check whichever member fulfils the checkbox condition...
-/// ... and push into new array which will be executed in the createTable function
-
-function partyFilter(checkedValue) {
-    var filteredMembers = [];
-    for (i = 0; i < arrayOfMembers.length; i++) {
-        for (j = 0; j < checkedValue.length; j++) {
-            if (checkedValue[j] == arrayOfMembers[i].party) {
-                filteredMembers.push(arrayOfMembers[i]);
+        for (var i = 0; i < members.length; i++) {
+            for (var j = 0; j < checkedValue.length; j++) {
+                if (checkedValue[j] == members[i].party) {
+                    filteredMembersByParty.push(members[i]);
+                }
             }
         }
-    }
-    createTable(filteredMembers);
-}
-
-// ******************************** DROP-DOWN FILTERS ********************************
-
-// create drop-down list in HTML    
-var usStates = [];
-for (i = 0; i < arrayOfMembers.length; i++) {
-    if (!usStates.includes(arrayOfMembers[i].state)) {
-        usStates.push(arrayOfMembers[i].state);
-        usStates.sort();
+        activeOptionFn(filteredMembersByParty);
     }
 }
-console.log(usStates);
+// ******************************** DROP-DOWN FILTERS ******************************
 
-// create drop-down list
-var select = document.getElementById("dropDownList");
-var members = usStates;
-
-for (var i = 0; i < members.length; i++) {
-    var option = document.createElement("option");
-    option.setAttribute("dropDownList", members[i]);
-    option.text = members[i];
-    select.appendChild(option);
-}
-
-
-// create eventListener 
-var dropListItems = document.getElementById("dropDownList")
-dropListItems.addEventListener("change", activeOptionFn);
-
-var stateCode = document.querySelectorAll(".usStates");
-
-function newFunction() {
-    sort(usStates);
-}
-
-// function to identify active selections and show all if all unchecked; create table with values from selected checkboxes
-function activeOptionFn() {
-    var checkedState = [];
-    for (var i = 0; i < stateCode.length; i++) {
-        if (stateCode[i].checked) {
-            checkedState.push(stateCode[i].value)
-        }
-    }
-    if (checkedState.length == 0) {
-        createTable(arrayOfMembers)
+function activeOptionFn(anyArray) {
+    var filteredMembersByState = [];
+    // dropDownList must be subdivided into Sen & Hou
+    selectValue = document.getElementById("dropDownList").value
+    if (selectValue == "All States") {
+        createTable(anyArray);
     } else {
-        stateFilter(checkedState);
-    }
-}
-
-// invoke in case at least one checkbox checked
-// run thru complete array and the selected checkbox array; check whichever member fulfils the checkbox condition...
-/// ... and push into new array which will be executed in the createTable function
-
-function stateFilter(checkedState) {
-    var filteredStates = [];
-    for (i = 0; i < arrayOfMembers.length; i++) {
-        for (j = 0; j < checkedState.length; j++) {
-            if (checkedState[j] == arrayOfMembers[i].state) {
-                filteredStates.push(arrayOfMembers[i]);
+        for (var i = 0; i < anyArray.length; i++) {
+            if (selectValue == anyArray[i].state) {
+                filteredMembersByState.push(anyArray[i])
             }
         }
+        createTable(filteredMembersByState);
     }
-    createTable(filteredStates);
+}
+
+// get all states from json file, put in array & create drop-down list with all states
+function createDropDown() {
+    var usStates = [];
+    for (i = 0; i < members.length; i++) {
+        if (!usStates.includes(members[i].state)) {
+            usStates.push(members[i].state);
+        }
+    }
+    usStates.sort();
+
+    var select = document.getElementById("dropDownList");
+
+    for (var i = 0; i < usStates.length; i++) {
+        var option = document.createElement("option");
+        option.text = usStates[i];
+        option.value = usStates[i];
+        select.append(option);
+    }
 }

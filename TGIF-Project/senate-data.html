@@ -13,10 +13,28 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
+
+    <link href="https://fonts.googleapis.com/css?family=Amaranth|Neucha|Signika+Negative&display=swap" rel="stylesheet">
+
 </head>
 
-<body>
-    <header class="fixed-top bg-white" style="font-family: 'Comic Sans MS'">
+<style>
+    .loader {
+        position: fixed;
+        z-index: 99;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+<body style="font-family: 'Amaranth', sans-serif; font-size:20px">
+    <header class="fixed-top bg-white">
 
         <div style="display: flex; justify-content:space-between">
             <div>
@@ -71,9 +89,9 @@
     </header>
 
     <!-- Table container -->
-    <div style=margin-top:250px>
+    <div style=margin-top:250px style="display:none" id="myDiv">
         <h1 class="ml-3">Senators</h1>
-        <p class="mx-5 mb-5">First convened in 1789, the composition and powers of
+        <p class="w-75 pl-5 mb-5" style="text-indent:2em">First convened in 1789, the composition and powers of
             the Senate are
             established in Article
             One of
@@ -95,13 +113,12 @@
             by
             the
             House.</p>
-
     </div>
 
     <!-- CHECK BOXES -->
-    <div class="d-flex justify-content-between p-2 m-5 bd-highlight">
+    <div class="d-flex justify-content-between mx-2 p-2 bd-highlight">
         <div class="d-flex">
-            <h2 class="mx-3">Filter by party</h2>
+            <h3 class="ml-5">Filter by party</h3>
             <div id="checkboxes" class="checkboxes">
                 <label id="" class="mx-2">
                     <input id="Reps" class="chBox" type="checkbox" name=party value="R">
@@ -117,19 +134,16 @@
                 </label>
             </div>
         </div>
-        <div class="d-flex">
-            <h2 class="mr-5">Filter by State</h2>
-            <select id="dropDownList" style="width:120px">
+        <div class="d-flex mr-4">
+            <h3 class="mr-3">Filter by State</h3>
+            <select id="dropDownList" class="mr-5" style="width:120px">
                 <option>All States</States>
                 </option>
             </select>
         </div>
     </div>
-    </div>
     <div>
-        <table class="table-striped table-bordered table-condensed table-hover mx-auto"
-            style="margin-top:120px; width:1000px">
-
+        <table class="table-striped table-bordered table-condensed table-hover mx-auto" style="width:1500px">
             <thead>
                 <tr>
                     <th>Full Name</th>
@@ -143,8 +157,18 @@
 
             <tbody id="senate-data">
             </tbody>
+
+
+        </table>
     </div>
-    </table>
+
+    <div id="no-members">
+        <p class="ml-5 pl-5">There is no party member in this state.</p>
+    </div>
+
+    <div class="loader" id="ajaxloader">
+        <img src="./images/spinner2.gif" alt="Loading..."> </div>
+    </div>
 
     <footer>
         <div class="navbar navbar-expand-sm bg-light justify-content-center mt-5">
@@ -152,9 +176,9 @@
         </div>
     </footer>
 
-    <script src="./styles/pro-congress-113-senate.js"></script>
-    <script src="./styles/main.js"></script>
-
 </body>
+
+<script src="./styles/main.js">
+</script>
 
 </html>

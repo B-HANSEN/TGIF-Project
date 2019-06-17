@@ -14,11 +14,28 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
 
+    <link href="https://fonts.googleapis.com/css?family=Amaranth|Neucha|Signika+Negative&display=swap" rel="stylesheet">
+
 </head>
 
-<body>
+<style>
+    .loader {
+        position: fixed;
+        z-index: 99;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
 
-    <header class="fixed-top bg-white" style="font-family: 'Comic Sans MS'">
+<body style="font-family: 'Amaranth', sans-serif; font-size:20px">
+
+    <header class="fixed-top bg-white">
 
         <div class="" style="display: flex; justify-content:space-between">
             <div>
@@ -77,14 +94,16 @@
         <div class="d-flex flex-row justify-content-between">
             <div style=width:800px>
                 <h2 class="ml-3">Attendance</h2>
-                <p class="mx-5 mb-5">The Constitution specifies that a majority of members constitutes a quorum to do
+                <p class="mx-5 mb-5" style="text-indent:2em">The Constitution specifies that a majority of members
+                    constitutes a quorum to do
                     business in each
                     house.
                     Representatives and senators rarely force the presence of a quorum by demanding quorum calls; thus,
                     in most
                     cases, debates continue even if a majority is not present.</p>
 
-                <p class="mx-5 mb-5">The Senate uses roll-call votes; a clerk calls out the names of all the senators,
+                <p class="mx-5 mb-5" style="text-indent:2em">The Senate uses roll-call votes; a clerk calls out the
+                    names of all the senators,
                     each senator
                     stating "aye"
                     or "no" when his or her name is announced. The House reserves roll-call votes for the most formal
@@ -98,7 +117,7 @@
 
             <div style=width:800px>
                 <h2>House at a glance</h2>
-                <table class="mx-5 mb-5" id="myTable">
+                <table class="mx-5 mb-5 table-striped" id="myTable">
                     <thead>
                         <tr>
                             <th>Party</th>
@@ -113,7 +132,7 @@
         </div>
     </div>
 
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between table-striped table-condensed table-hover mx-auto">
         <div style=width:800px>
             <h2 class="ml-3">Least Engaged (Bottom 10% Attendance)</h2>
             <table class="mx-5 mb-5">
@@ -144,13 +163,16 @@
         </div>
     </div>
 
+    <div class="loader" id="ajaxloader">
+        <img src="./images/spinner2.gif" alt="Loading..."> </div>
+    </div>
+
     <footer>
         <div class="navbar navbar-expand-sm bg-light justify-content-center mt-5">
             <p>© 2016 TGIF | All Rights Reserved</p>
         </div>
     </footer>
 
-    <script src="./styles/pro-congress-113-house.js"></script>
     <script src="./styles/statistics.js"></script>
 
 </body>

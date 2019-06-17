@@ -1,3 +1,41 @@
+var ajaxloaxder = document.getElementById("ajaxloader");
+
+var members;
+
+
+if (window.location.href.includes("senate")) {
+    getData("senate")
+} else {
+    getData("house")
+
+}
+
+
+function getData(chamber) {
+    fetch("https://api.propublica.org/congress/v1/113/" + chamber + "/members.json", {
+        method: "GET",
+        headers: {
+            'X-API-Key': 'gpxI5jMm6JWOG7WlInZOFyaKP1wTYions6uW86Dd'
+        }
+    }).then(function (response) {
+        return response.json();
+    }).then(function (json) {
+        members = json.results[0].members;
+        num_results = json.results[0].num_results;
+        countMembers();
+        votedByParty();
+        forHtmlTable(statistics, "glanceTable");
+        ascArray();
+        descArray()
+        createTables();
+        ajaxloader.style.display = 'none';
+    }).catch(function (error) {
+        console.log("something went wrong");
+    })
+
+}
+
+
 // object for AT A GLANCE table
 let statistics = {
     "Democrats": {
@@ -11,29 +49,27 @@ let statistics = {
     "Independents": {
         NoOfReps: 0,
         votedWithParty: 0,
-
     },
     "Total": {
-        NoOfReps: data.results[0].num_results,
+        // NoOfReps: data.results[0].num_results,
+        NoOfReps: 0,
         votedWithParty: 0,
     },
 }
+
 
 // Write code to create and fill three variables; one for a list of Dem objects etc.
 // update statistics object with the number of members in each party,
 // ... e.g. for the key "Number of Democrats" replace the default value of zero with the length of the list of Democrat objects.
 
-arrayOfMembers = data.results[0].members;
-
-var totalVotesPerc = 0;
-for (i = 0; i < arrayOfMembers.length; i++) {
-    totalVotesPerc += arrayOfMembers[i].votes_with_party_pct
-}
 
 // members by party
-statistics.Democrats.NoOfReps = numberOfMembers(arrayOfMembers, "D")
-statistics.Republicans.NoOfReps = numberOfMembers(arrayOfMembers, "R")
-statistics.Independents.NoOfReps = numberOfMembers(arrayOfMembers, "I")
+function countMembers() {
+    statistics.Democrats.NoOfReps = numberOfMembers(members, "D")
+    statistics.Republicans.NoOfReps = numberOfMembers(members, "R")
+    statistics.Independents.NoOfReps = numberOfMembers(members, "I")
+    statistics.Total.NoOfReps = numberOfMembers(members, "D") + numberOfMembers(members, "R") + numberOfMembers(members, "I")
+}
 
 function numberOfMembers(anyArray, letter) {
     var numberOfMembersByParty = 0;
@@ -47,14 +83,18 @@ function numberOfMembers(anyArray, letter) {
 }
 
 // avg % voted with party
-statistics.Democrats.votedWithParty = (sumVotes(arrayOfMembers, "D") / statistics.Democrats.NoOfReps).toFixed(2);
-statistics.Republicans.votedWithParty = (sumVotes(arrayOfMembers, "R") / statistics.Republicans.NoOfReps).toFixed(2);
-if (sumVotes(arrayOfMembers, "I") !== 0) {
-    statistics.Independents.votedWithParty = (sumVotes(arrayOfMembers, "I") / statistics.Independents.NoOfReps).toFixed(2)
-} else {
-    statistics.Independents.votedWithParty = 0;
+function votedByParty() {
+    statistics.Democrats.votedWithParty = (sumVotes(members, "D") / statistics.Democrats.NoOfReps).toFixed(2);
+    statistics.Republicans.votedWithParty = (sumVotes(members, "R") / statistics.Republicans.NoOfReps).toFixed(2);
+    if (sumVotes(members, "I") !== 0) {
+        statistics.Independents.votedWithParty = (sumVotes(members, "I") / statistics.Independents.NoOfReps).toFixed(2)
+    } else {
+        statistics.Independents.votedWithParty = 0;
+    }
+    statistics.Total.votedWithParty = ((sumVotes(members, "D") + sumVotes(members, "R") + sumVotes(members, "I")) /
+        (statistics.Democrats.NoOfReps + statistics.Republicans.NoOfReps + statistics.Independents.NoOfReps)).toFixed(2);
 }
-statistics.Total.votedWithParty = (Number(totalVotesPerc / arrayOfMembers.length)).toFixed(2);
+
 
 function sumVotes(anyArray, letter) {
     var allVotes = 0;
@@ -80,103 +120,107 @@ function forHtmlTable(anyArray, tbodyId) {
         cell3.innerHTML = anyArray[keys].votedWithParty;
     }
 }
-forHtmlTable(statistics, "glanceTable");
 
 // *********************************************************************************************************************
 
-// declare array with ascending and descending missed votes pct
 var sorterAsc = [];
 var sorterDesc = [];
 
 // ascending all pct over the complete members array
-function mainArrayAsc(anyArray, criterion) {
-    var perc = Math.round((anyArray.length * 0.1));
-    anyArray.sort(function (a, b) {
-        return a[criterion] - b[criterion];
-    });
-    sorterAsc = anyArray.slice(0, perc);
+function ascArray() {
+    function mainArrayAsc(anyArray, criterion) {
+        var perc = Math.round((anyArray.length * 0.1));
+        anyArray.sort(function (a, b) {
+            return a[criterion] - b[criterion];
+        });
+        sorterAsc = anyArray.slice(0, perc);
 
-    for (var i = perc; i < anyArray.length; i++) {
-        if (sorterAsc[perc - 1][criterion] == anyArray[i][criterion]) {
-            sorterAsc.push(anyArray[i]);
-        } else {
-            break
+        for (var i = perc; i < anyArray.length; i++) {
+            if (sorterAsc[perc - 1][criterion] == anyArray[i][criterion]) {
+                sorterAsc.push(anyArray[i]);
+            } else {
+                break
+            }
         }
     }
-}
-if (document.URL.includes("attendance")) {
-    mainArrayAsc(arrayOfMembers, "missed_votes_pct")
-} else {
-    mainArrayAsc(arrayOfMembers, "votes_with_party_pct")
+    if (document.URL.includes("attendance")) {
+        mainArrayAsc(members, "missed_votes_pct")
+    } else {
+        mainArrayAsc(members, "votes_with_party_pct")
+    }
 }
 
 // descending all pct over the complete members array
-function mainArrayDesc(anyArray, criterion) {
-    var perc = Math.round((anyArray.length * 0.1));
-    anyArray.sort(function (a, b) {
-        return b[criterion] - a[criterion]
-    });
-    sorterDesc = anyArray.slice(0, perc);
+function descArray() {
+    function mainArrayDesc(anyArray, criterion) {
+        var perc = Math.round((anyArray.length * 0.1));
+        anyArray.sort(function (a, b) {
+            return b[criterion] - a[criterion]
+        });
+        sorterDesc = anyArray.slice(0, perc);
 
-    for (var i = 0; i < anyArray.length; i++) {
-        if (sorterDesc[perc - 1][criterion] == anyArray[i][criterion]) {
-            sorterDesc.push(anyArray[i]);
+        for (var i = 0; i < anyArray.length; i++) {
+            if (sorterDesc[perc - 1][criterion] == anyArray[i][criterion]) {
+                sorterDesc.push(anyArray[i]);
+            } else {
+                break
+            }
+        }
+    }
+    console.log(sorterDesc);
+    for (var i = 0; i < sorterDesc.length; i++) {
+        if (sorterDesc[sorterDesc.length - 1][criterion] === anyArray[i][criterion]) {
+            sorterDesc = sorterDesc.push(anyArray[i])
         } else {
             break
         }
     }
-}
-console.log(sorterDesc);
-for (var m = 0; m < sorterDesc.length; m++) {
-    if (sorterDesc[sorterDesc.length - 1][criterion] === anyArray[m][criterion]) {
-        sorterDesc = sorterDesc.push(anyArray[m])
+    console.log(sorterDesc);
+    if (document.URL.includes("attendance")) {
+        mainArrayDesc(members, "missed_votes_pct")
     } else {
-        break
+        mainArrayDesc(members, "votes_with_party_pct")
     }
 }
-console.log(sorterDesc);
-if (document.URL.includes("attendance")) {
-    mainArrayDesc(arrayOfMembers, "missed_votes_pct")
-} else {
-    mainArrayDesc(arrayOfMembers, "votes_with_party_pct")
-};
 
 // move values to html tables
-function forHtmlTable1(anyArray, tbodyId) {
-    var tbody = document.getElementById(tbodyId);
-    for (var k = 0; k < anyArray.length; k++) {
-        var row = tbody.insertRow(-1);
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        var cell3 = row.insertCell(2);
-        if (anyArray[k].middle_name == null) {
-            anyArray[k].middle_name = "";
+function createTables() {
+    function forHtmlTable1(anyArray, tbodyId) {
+        var tbody = document.getElementById(tbodyId);
+        for (var i = 0; i < anyArray.length; i++) {
+            var row = tbody.insertRow(-1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            if (anyArray[i].middle_name == null) {
+                anyArray[i].middle_name = "";
+            }
+            cell1.innerHTML = `${anyArray[i].first_name} ${anyArray[i].middle_name} ${anyArray[i].last_name}`;
+            cell2.innerHTML = anyArray[i].missed_votes;
+            cell3.innerHTML = anyArray[i].missed_votes_pct;
         }
-        cell1.innerHTML = `${anyArray[k].first_name} ${anyArray[k].middle_name} ${anyArray[k].last_name}`;
-        cell2.innerHTML = anyArray[k].missed_votes;
-        cell3.innerHTML = anyArray[k].missed_votes_pct;
     }
-}
 
-function forHtmlTable2(anyArray, tbodyId) {
-    var tbody = document.getElementById(tbodyId);
-    for (var n = 0; n < anyArray.length; n++) {
-        var row = tbody.insertRow(-1);
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        var cell3 = row.insertCell(2);
-        if (anyArray[n].middle_name == null) {
-            anyArray[n].middle_name = "";
+    function forHtmlTable2(anyArray, tbodyId) {
+        var tbody = document.getElementById(tbodyId);
+        for (var i = 0; i < anyArray.length; i++) {
+            var row = tbody.insertRow(-1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            if (anyArray[i].middle_name == null) {
+                anyArray[i].middle_name = "";
+            }
+            cell1.innerHTML = `${anyArray[i].first_name} ${anyArray[i].middle_name} ${anyArray[i].last_name}`;
+            cell2.innerHTML = anyArray[i].total_votes;
+            cell3.innerHTML = anyArray[i].votes_with_party_pct;
         }
-        cell1.innerHTML = `${anyArray[n].first_name} ${anyArray[n].middle_name} ${anyArray[n].last_name}`;
-        cell2.innerHTML = anyArray[n].total_votes;
-        cell3.innerHTML = anyArray[n].votes_with_party_pct;
     }
-}
-if (document.URL.includes("attendance")) {
-    forHtmlTable1(sorterDesc, "least");
-    forHtmlTable1(sorterAsc, "top");
-} else {
-    forHtmlTable2(sorterAsc, "leastloyalty");
-    forHtmlTable2(sorterDesc, "toployalty");
+    if (document.URL.includes("attendance")) {
+        forHtmlTable1(sorterDesc, "least");
+        forHtmlTable1(sorterAsc, "top");
+    } else {
+        forHtmlTable2(sorterAsc, "leastloyalty");
+        forHtmlTable2(sorterDesc, "toployalty");
+    }
 }
