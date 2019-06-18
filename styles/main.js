@@ -2,12 +2,12 @@ function btnFn() {
     var moreText = document.getElementById("more");
     var btnText = document.getElementById("myBtn");
 
-    if (dots.style.display === "none") {
-        btnText.innerHTML = "Read more";
-        moreText.style.display = "none";
-    } else {
-        btnText.innerHTML = "Read less";
+    if (moreText.style.display === "none") {
         moreText.style.display = "inline";
+        btnText.innerHTML = "Show less";
+    } else if (moreText.style.display === "inline") {
+        moreText.style.display = "none";
+        btnText.innerHTML = "Show more";
     }
 }
 
