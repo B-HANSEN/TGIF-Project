@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+
+    <link href="https://fonts.googleapis.com/css?family=Amaranth|Neucha|Signika+Negative&display=swap" rel="stylesheet">
+
+</head>
+
+<style>
+    .loader {
+        position: fixed;
+        z-index: 99;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+<body style="font-family: 'Amaranth', sans-serif; font-size:20px">
+    <header class="fixed-top bg-white">
+
+        <div style="display: flex; justify-content:space-between">
+            <div>
+                <img class="logo mt-1 mb-1 ml-1" src="./images/screenshot.png" alt="logo" style="height:150px">
+            </div>
+
+            <div class="mr-5" style="display: flex; align-items:center">
+                <img src="./images/mail.png" alt="logo" style="height:40px">
+                <a href="mailto:info@tgif.net" class="ml-2" style="font-size:30px">info@tgif.net</a>
+            </div>
+
+        </div>
+
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="nav nav-tabs bg-light">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Congress 113
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Senate</a>
+                            <a class="dropdown-item" href="house-data.html">House</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Attendance</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="senate_attendance.html">Senate</a>
+                            <a class="dropdown-item" href="house_attendance.html">House</a>
+                        </div>
+                    </li>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Party Loyalty</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="senate_loyalty.html">Senate</a>
+                            <a class="dropdown-item" href="house_loyalty.html">House</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Table container -->
+    <!-- <div style=margin-top:250px style="display:none" id="myDiv"> -->
+    <div style=margin-top:250px>
+        <h1 class="ml-3">Senators</h1>
+        <p class="w-75 pl-5 mb-5" style="text-indent:2em">First convened in 1789, the composition and powers of
+            the Senate are
+            established in Article
+            One of
+            the
+            U.S.
+            Constitution. Each state is represented by two senators, regardless of population, who serve
+            staggered
+            six-year terms. The Senate has several exclusive powers not granted to the House, including
+            consenting
+            to
+            treaties as a precondition to their ratification and consenting to or confirming
+            appointments of
+            Cabinet
+            secretaries, federal judges, other federal executive officials, military officers,
+            regulatory
+            officials,
+            ambassadors, and other federal uniformed officers, as well as trial of federal officials
+            impeached
+            by
+            the
+            House.</p>
+    </div>
+
+    <!-- CHECK BOXES -->
+    <div class="d-flex justify-content-between mx-2 p-2 bd-highlight">
+        <div class="d-flex">
+            <h3 class="ml-5">Filter by party</h3>
+            <div id="checkboxes" class="checkboxes">
+                <label id="" class="mx-2">
+                    <input id="Reps" class="chBox" type="checkbox" name=party value="R">
+                    Republican
+                </label>
+                <label id="" class="mx-2">
+                    <input id="Dems" class="chBox" type="checkbox" name=party value="D">
+                    Democrat
+                </label>
+                <label id="" class="mx-2">
+                    <input id="Indies" class="chBox" type="checkbox" name=party value="I">
+                    Independent
+                </label>
+            </div>
+        </div>
+        <div class="d-flex mr-4">
+            <h3 class="mr-3">Filter by State</h3>
+            <select id="dropDownList" class="mr-5" style="width:120px">
+                <option>All States</States>
+                </option>
+            </select>
+        </div>
+    </div>
+    <div>
+        <table class="table-striped table-bordered table-condensed table-hover mx-auto"
+            style="margin-bottom:100px; width:1500px">
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Party</th>
+                    <th>State</th>
+                    <th>Years in office</th>
+                    <th>Votes with party</th>
+
+                </tr>
+            </thead>
+
+            <tbody id="tdata">
+            </tbody>
+
+
+        </table>
+    </div>
+
+    <div id="no-members" style="text-align:center">
+        <p class="ml-5 pl-5">There is no party member in this state.</p>
+    </div>
+
+    <div class="loader" id="ajaxloader">
+        <img src="./images/spinner2.gif" alt="Loading..."> </div>
+    </div>
+
+    <footer class="mt-5">
+        <div class="navbar navbar-expand-sm bg-light justify-content-center"
+            style="position:fixed; left:0; bottom:0; width:100%">
+            <p>© 2016 TGIF | All Rights Reserved</p>
+        </div>
+    </footer>
+
+</body>
+
+<script src="./styles/main.js">
+</script>
+
+</html>
