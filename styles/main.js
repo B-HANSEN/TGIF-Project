@@ -14,18 +14,18 @@ var app = new Vue({
     }
 });
 
-function btnFn() {
-    var moreText = document.getElementById("more");
-    var btnText = document.getElementById("myBtn");
+// function btnFn() {
+//     var moreText = document.getElementById("more");
+//     var btnText = document.getElementById("myBtn");
 
-    if (moreText.style.display === "none") {
-        moreText.style.display = "inline";
-        btnText.innerHTML = "Show less";
-    } else if (moreText.style.display === "inline") {
-        moreText.style.display = "none";
-        btnText.innerHTML = "Show more";
-    }
-}
+//     if (moreText.style.display === "none") {
+//         moreText.style.display = "inline";
+//         btnText.innerHTML = "Show less";
+//     } else if (moreText.style.display === "inline") {
+//         moreText.style.display = "none";
+//         btnText.innerHTML = "Show more";
+//     }
+// }
 
 var ajaxloader = document.getElementById("ajaxloader");
 
@@ -47,6 +47,7 @@ function getMembers(chamber) {
         return response.json();
     }).then(function (json) {
         members = json.results[0].members;
+        // num_results = json.results[0].num_results;
         eventListeners();
         createDropDown();
         createTable(members);
