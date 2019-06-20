@@ -1,3 +1,19 @@
+var app = new Vue({
+    el: '#app',
+    data: {
+        button: {
+            text: 'Show More'
+        },
+        showPara: true
+    },
+    methods: {
+        hideShow() {
+            app.showPara = !app.showPara;
+            app.button.text = app.showPara ? 'Show more' : 'Show less';
+        }
+    }
+});
+
 function btnFn() {
     var moreText = document.getElementById("more");
     var btnText = document.getElementById("myBtn");
