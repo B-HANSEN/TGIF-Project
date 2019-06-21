@@ -1,4 +1,6 @@
-var ajaxloaxder = document.getElementById("ajaxloader");
+// access ajaxloader in HTML; invoke fetch upon webpage visit
+
+var ajaxloader = document.getElementById("ajaxloader");
 
 var members;
 
@@ -8,6 +10,8 @@ if (window.location.href.includes("senate")) {
     getData("house")
 }
 
+// request data from remote server, convert to json
+// store a part of it in var members, invoke functions upon data receipt
 function getData(chamber) {
     var chamber;
     fetch("https://api.propublica.org/congress/v1/113/" + chamber + "/members.json", {
@@ -30,9 +34,7 @@ function getData(chamber) {
     }).catch(function (error) {
         console.log("something went wrong");
     })
-
 }
-
 
 // object for AT A GLANCE table
 let statistics = {
@@ -55,11 +57,8 @@ let statistics = {
     },
 }
 
-
-// Write code to create and fill three variables; one for a list of Dem objects etc.
 // update statistics object with the number of members in each party,
 // ... e.g. for the key "Number of Democrats" replace the default value of zero with the length of the list of Democrat objects.
-
 
 // members by party
 function countMembers() {
@@ -93,7 +92,8 @@ function votedByParty() {
         (statistics.Democrats.NoOfReps + statistics.Republicans.NoOfReps + statistics.Independents.NoOfReps)).toFixed(2);
 }
 
-
+// run loops for each party and add up the votes by party pct
+//feed result into votedByParty function
 function sumVotes(anyArray, letter) {
     var allVotes = 0;
     for (var i = 0; i < anyArray.length; i++) {
@@ -124,7 +124,8 @@ function forHtmlTable(anyArray, tbodyId) {
 var sorterAsc = [];
 var sorterDesc = [];
 
-// ascending all pct over the complete members array
+// ascending all pct over the complete members array; selecting 10%
+// criteria: 'missed votes %' or 'voted with party pct'
 function ascArray() {
     function mainArrayAsc(anyArray, criterion) {
         var perc = Math.round((anyArray.length * 0.1));
@@ -133,6 +134,8 @@ function ascArray() {
         });
         sorterAsc = anyArray.slice(0, perc);
 
+        // if there is one more value in the json that equals the last member of the sorter array, add this one to the sorter array, too
+        // last item sorterArray equals first item of json array
         for (var i = perc; i < anyArray.length; i++) {
             if (sorterAsc[perc - 1][criterion] == anyArray[i][criterion]) {
                 sorterAsc.push(anyArray[i]);
@@ -141,6 +144,7 @@ function ascArray() {
             }
         }
     }
+    // invoke function depending on which website has been selected
     if (document.URL.includes("attendance")) {
         mainArrayAsc(members, "missed_votes_pct")
     } else {
@@ -214,6 +218,7 @@ function createTables() {
             cell3.innerHTML = anyArray[i].votes_with_party_pct;
         }
     }
+    // invoke depending on which site is selected
     if (document.URL.includes("attendance")) {
         forHtmlTable1(sorterDesc, "least");
         forHtmlTable1(sorterAsc, "top");
