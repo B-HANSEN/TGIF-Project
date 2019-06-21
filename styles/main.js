@@ -1,3 +1,6 @@
+// Show more&less button; connect ajaxloader with html
+// declare variables for members and chamber and invoke function
+
 function btnFn() {
     var moreText = document.getElementById("more");
     var btnText = document.getElementById("myBtn");
@@ -11,6 +14,7 @@ function btnFn() {
     }
 }
 
+
 var ajaxloader = document.getElementById("ajaxloader");
 
 var members;
@@ -21,6 +25,8 @@ if (window.location.href.includes("senate")) {
     getMembers("house")
 }
 
+// request data from remote server, convert to json
+// store a part of it in var members, invoke functions upon data receipt
 function getMembers(chamber) {
     fetch("https://api.propublica.org/congress/v1/113/" + chamber + "/members.json", {
         method: "GET",
@@ -40,6 +46,7 @@ function getMembers(chamber) {
     })
 }
 
+// depending on chBoxclass; pull all data from json
 var partyCode = document.querySelectorAll(".chBox");
 
 // access Elements in html and declare variables
@@ -47,6 +54,7 @@ dem = document.getElementById("Dems");
 rep = document.getElementById("Reps");
 ind = document.getElementById("Indies");
 
+// listen for click event and pass function which invokes the chBox Fn which then invokes the nested activeOption Fn;
 function eventListeners() {
     rep.addEventListener("click", activeBoxFn);
     ind.addEventListener("click", activeBoxFn);
@@ -54,6 +62,7 @@ function eventListeners() {
     document.getElementById("dropDownList").addEventListener("change", activeBoxFn);
 }
 
+// create Table with function; consider no-match
 function createTable(anyArray) {
     var tbody = document.getElementById("tdata");
     tbody.innerHTML = "";
@@ -65,7 +74,7 @@ function createTable(anyArray) {
         noShow.style.display = "none";
 
         for (var i = 0; i < anyArray.length; i++) {
-            // CREATE item in HTML
+            // create row in HTML for every array item (party member)
             var tr = document.createElement("tr");
 
             // define variables and access from properties from json table
@@ -99,9 +108,9 @@ function createTable(anyArray) {
                 membersURL.setAttribute("href", anyArray[i].url);
                 membersURL.setAttribute("target", "_blank"); /// open a new browser tab
                 td_fullName.append(membersURL);
-                membersURL.innerHTML = fullName; /// declare available URL and set equal with fullName...
+                membersURL.innerHTML = fullName; // write the URL into html but show fullName
             } else {
-                td_fullName.innerHTML = fullName; /// ... show fullName if/ if no URL available
+                td_fullName.innerHTML = fullName; /// write, the concatenated name into html, if no URL available
             }
             // assign values to table data
             td_party.innerHTML = party;
