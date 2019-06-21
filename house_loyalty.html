@@ -43,7 +43,7 @@
 
             <div class="" style="display: flex; justify-content:space-between">
                 <div>
-                    <img class="logo mt-1 mb-1 ml-1" src="./images/screenshot.png" alt="logo" style="height:150px">
+                    <img class="" src="./images/screenshot.png" alt="logo" style="height:150px">
                 </div>
 
                 <div class="mr-5" style="display: flex; align-items:center">
@@ -64,7 +64,7 @@
                                 <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Congress 113
                                 </a>
@@ -74,7 +74,7 @@
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
-                                <a a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                <a a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Attendance</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="senate_attendance.html">Senate</a>
@@ -102,10 +102,11 @@
         <div class="d-flex flex-column" style=margin-top:250px>
             <div class="d-flex flex-row justify-content-between">
                 <div style=width:800px>
-                    <h2 class="ml-3">Party Loyalty</h2>
-                    <p class="mx-5 mb-5" style="text-indent:2em">Those who consider themselves to be strong partisans,
+                    <h2 class="ml-5">Party Loyalty</h2>
+                    <p class="mx-5 mb-5" style="text-indent:2em; font-size:17px">Those who consider themselves to be
                         strong
-                        Democrats and strong
+                        partisans,
+                        strong Democrats and strong
                         Republicans
                         respectively,
                         tend to be the most faithful in voting for their party's nominee for office and legislation that
@@ -113,63 +114,65 @@
                         their
                         party's agenda. </p>
                 </div>
+
                 <div style=width:800px>
-                    <h2>House at a glance</h2>
+                    <h2 class="ml-5">House at a glance</h2>
                     <table class="mx-5 mb-5 table-striped" id="myTable">
                         <thead>
-                            <tr>
-                                <th>Party</th>
-                                <th>Number of Reps</th>
-                                <th>% Voted with Party</th>
+                            <tr class="text-center" style="background-color:black; color:white">
+                                <th style="width:200px">Party</th>
+                                <th style="width:150px">Number of Reps</th>
+                                <th style="width:200px">% Voted with Party</th>
                             </tr>
                         </thead>
-
-                        <tbody id="glanceTable">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="d-flex justify-content-between table-striped table-condensed table-hover mx-auto">
-                <div style=width:800px>
-                    <h2 class="ml-3">Least Loyal (Bottom 10% of Party)</h2>
-                    <table class="mx-5 mb-5">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Number Party Votes</th>
-                                <th>% Party Votes</th>
-                            </tr>
-                        </thead>
-                        <tbody id="leastloyalty">
-                        </tbody>
-                    </table>
-                </div>
-                <div style=width:800px>
-                    <h2>Most Loyal (Top 10% of Party)</h2>
-                    <table class="mx-5 mb-5">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Number Party Votes</th>
-                                <th>% Party Votes</th>
-                            </tr>
-                        </thead>
-                        <tbody id="toployalty">
+                        <tbody id="glanceTable" class="text-center">
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <div class="loader" id="ajaxloader">
-            <img src="./images/spinner2.gif" alt="Loading..."> </div>
+
+        <div class="d-flex justify-content-between table-striped table-condensed table-hover mx-auto">
+            <div style=width:800px>
+                <h2 class="ml-5">Least Loyal (Bottom 10% of Party)</h2>
+                <table class="mx-5 mb-5">
+                    <thead>
+                        <tr class="text-center" style="background-color:black; color:white">
+                            <th style="width:300px">Name</th>
+                            <th style="width:200px">Number Party Votes</th>
+                            <th style="width:150px">% Party Votes</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leastloyalty" class="text-center">
+                    </tbody>
+                </table>
+            </div>
+            <div style=width:800px>
+                <h2 class="ml-5">Most Loyal (Top 10% of Party)</h2>
+                <table class="mx-5 mb-5">
+                    <thead>
+                        <tr class="text-center" style="background-color:black; color:white">
+                            <th style="width:300px">Name</th>
+                            <th style="width:200px">Number Party Votes</th>
+                            <th style="width:150px">% Party Votes</th>
+                        </tr>
+                    </thead>
+                    <tbody id="toployalty" class="text-center">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="loader" id="ajaxloader">
+        <img src="./images/spinner2.gif" alt="Loading..."> </div>
     </div>
 
     <footer class="mt-5">
         <div class="navbar navbar-expand-sm bg-light justify-content-center"
             style="position:fixed; left:0; bottom:0; width:100%">
-            <p>© 2016 TGIF | All Rights Reserved</p>
+            <p>© 2019 TGIF | All Rights Reserved</p>
         </div>
     </footer>
 
